@@ -1,0 +1,22 @@
+Search path: d:/workspace/mycodingbat/tutorial-tricks101/src
+No config files found.
+Angular Language Service: 8.0.0
+TypeScript: 3.4.5
+getTemplateReferences: 146ms
+getDiagnostics: 1ms
+Search path: d:/workspace/mycodingbat/tutorial-angular101/src/app
+Config file name: d:/workspace/mycodingbat/tutorial-angular101/tsconfig.json
+Angular Language Service: 8.0.0
+TypeScript: 3.4.5
+getTemplateReferences: 132ms
+Add recursive watcher for: d:/workspace/mycodingbat/tutorial-angular101
+Opened configuration file d:/workspace/mycodingbat/tutorial-angular101/tsconfig.json
+getTemplateReferences: 0ms
+getTemplateReferences: 0ms
+Angular Language Service: 8.0.0
+TypeScript: 3.4.5
+getTemplateReferences: 150ms
+getDiagnostics: 2ms
+getHoverAt: 0ms
+remove project: d:/workspace/mycodingbat/tutorial-tricks101/src/hello.html
+remove project: d:/workspace/mycodingbat/tutorial-angular101/src/app/app.component.html
