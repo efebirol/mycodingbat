@@ -1,4 +1,4 @@
-package com.codingchallenge.codingchallgenge.webservice;
+package com.codingchallenge.webservice;
 
 import org.springframework.stereotype.Service;
 

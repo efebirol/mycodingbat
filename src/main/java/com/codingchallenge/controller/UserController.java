@@ -1,11 +1,11 @@
-package com.codingchallenge.codingchallgenge.controller;
+package com.codingchallenge.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingchallenge.codingchallgenge.webservice.UserService;
+import com.codingchallenge.webservice.UserService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,6 @@ public class UserController {
 		logger.info("-- Usercontroller.java - getUserWebpage()");
 		return this.getName();
 	}
-	
 	
 
 }

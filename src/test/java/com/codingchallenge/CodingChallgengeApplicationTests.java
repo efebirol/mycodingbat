@@ -1,4 +1,4 @@
-package com.codingchallenge.codingchallgenge;
+package com.codingchallenge;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
