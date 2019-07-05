@@ -56,7 +56,7 @@ public class UserControllerTest {
 	@Test
 	public void testStringE() throws Exception {
 		String testHello = "Hello";
-		this.mockMvc.perform(get("/testresults/stringe/{inputstring}","Hello")).andExpect(status().isOk())
+		this.mockMvc.perform(get("/testresults/stringe/{inputstring}","Hello")).andExpect(status().isOk());
 		//.andExpect(content().string("true"));
 	}
 
