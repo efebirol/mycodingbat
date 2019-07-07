@@ -89,4 +89,16 @@ public class UserControllerTest {
 		return result.getResponse().getContentAsString();
 	}
 
+
+	@Test
+	public void testMethode() throws Exception {
+		String param = "Axeldo";
+		MvcResult result = this.mockMvc.perform(get("/testresults/stringe/{inputstring}", param).accept("application/json"))
+				.andExpect(status().isOk())
+				.andReturn();
+		String retVal =  result.getResponse().getContentAsString();
+		Assert.assertEquals("true",retVal);
+
+	}
+
 }
