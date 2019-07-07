@@ -23,39 +23,42 @@ import org.slf4j.LoggerFactory;
 @Setter // <--- Benutze Lombok Bibliothek (für Getter und Setter)
 public class UserController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	private final UserService userService;
-	private String name;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final UserService userService;
+    private String name;
 
-	@Autowired
-	public UserController(UserService userService) {
+    @Autowired
+    public UserController(UserService userService) {
 
-		logger.info("-- Usercontroller.java - Usercontroller() Konstruktor");
-		this.userService = userService;
-		this.setName("TestLombokGetterName");
-	}
+        logger.info("-- Usercontroller.java - Usercontroller() Konstruktor");
 
-	@RequestMapping(value = "/getuserwebpage", method = RequestMethod.GET)
-	public String getUserWebpage() {
-		logger.info("-- Usercontroller.java - getUserWebpage()");
-		return this.getName();
-	}
+        this.userService = userService;
+        this.setName("TestLombokGetterName");
+    }
 
-	/**
-	 * Test in Konsole mit "curl
-	 * http://localhost:8080/testresults/stringe/IrgendeinString"
-	 */
-	@RequestMapping(value = "/stringe/{inputstring}", method = RequestMethod.GET)
-	public boolean stringE(@PathVariable("inputstring") String inputstring) {
-		int count = 0;
-		logger.info("-- UserController -- stringE() - inputstring: " + inputstring);
+    @RequestMapping(value = "/getuserwebpage", method = RequestMethod.GET)
+    public String getUserWebpage() {
+        logger.info("-- Usercontroller.java - getUserWebpage()");
+        return this.getName();
+    }
 
-		for (int i = 0; i < inputstring.length(); i++) {
-			if (inputstring.charAt(i) == 'e')
-				count++;
-		}
+    /**
+     * Test in Konsole mit "curl
+     * http://localhost:8080/testresults/stringe/IrgendeinString"
+     */
+    @RequestMapping(value = "/stringe/{inputstring}", method = RequestMethod.GET)
+    public boolean stringE(@PathVariable("inputstring") String inputstring) {
 
-		return (count >= 1 && count <= 3) ? true : false;
-	}
+        char c='e';
+        logger.info("-- UserController -- stringE() - inputstring: " + inputstring);
+        int count = checkLetter(inputstring, 0, c);
+
+
+        return (count >= 1 && count <= 3) ? true : false;
+    }
+
+    private int checkLetter(String input, int index, char checkFor) {
+        return (index >= input.length()) ? 0 : (input.charAt(index++) == checkFor ? 1 : 0) + checkLetter(input, index, checkFor);
+    }
 
 }
