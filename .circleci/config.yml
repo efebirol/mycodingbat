@@ -42,3 +42,22 @@ jobs: # a collection of steps
       - run:
          name: Maven Package
          command: mvn package # run the actual test
+
+#   schritt1:
+#      - run: |
+#         echo Beispiel für Workflow (Schritt1)
+         
+#   schritt2:
+#      - run: |
+#         echo Beispiel für Workflow (Schritt2)
+
+#definiere Workflows/Abläufe (z. B. bauen und testen)
+#workflows:
+#  version: 2
+#  build_and_test:
+#    jobs:
+#      - schritt1
+#      - schritt2
+      
+      
+      
