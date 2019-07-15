@@ -29,7 +29,8 @@ jobs: # a collection of steps
          echo Gebe mehrere Zeile in Circleci Commandline aus
          echo Hier mal 'pwd'mvn package # run the actual test
          pwd
-         mvn package # run the actual testss
+         
+      - run: mvn package # run the actual testss
       
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard. 
       # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
