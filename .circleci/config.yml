@@ -45,9 +45,9 @@ jobs: # a collection of steps
          command: mvn install # run the actual test
 
   schritt1:
-      - run: |
-         echo Beispiel für Workflow (Schritt1)
-         
+   - run: |
+      echo Beispiel für Workflow (Schritt1)
+            
   schritt2:
       - run: |
          echo Beispiel für Workflow (Schritt2)
