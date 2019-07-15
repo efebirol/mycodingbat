@@ -53,12 +53,12 @@ jobs: # a collection of steps
          echo Beispiel für Workflow (Schritt2)
 
 #definiere Workflows/Abläufe (z. B. bauen und testen)
-workflows:
-   version: 2
-   build_and_test:
-    jobs:
-      - schritt1
-      - schritt2
+#workflows:
+#   version: 2
+#   build_and_test:
+#    jobs:
+#      - schritt1
+#      - schritt2
       
       
       
