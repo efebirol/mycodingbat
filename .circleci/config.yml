@@ -5,19 +5,20 @@ jobs: # a collection of steps
     working_directory: ~/repo # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11.0-jdk
 
     steps: # a collection of executable commands
 
+      - run:
+         name: Maven Clean of local repository
+         command: mvn clean
+         
       - checkout # check out source code to working directory
 
       #- restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           #key: mycodingbat-{{ checksum "pom.xml" }}
-      
-      - run: |
-         echo "Download Maven Dependency"
-         mvn dependency:go-offline # gets the project dependencies
+
       
       #- save_cache: # saves the project dependencies
       #    paths:
@@ -34,14 +35,14 @@ jobs: # a collection of steps
       - run:
           name: Check current version of Maven
           command: mvn -v         
-
-      - run:
-         name: Maven Clean of local repository
-         command: mvn clean
+      
+      - run: |
+         echo "Download and Install Maven Dependencies"
+         mvn dependency:go-offline # gets the project dependencies
          
       - run:
          name: Maven Package
-         command: mvn package # run the actual test
+         command: mvn install # run the actual test
 
 #   schritt1:
 #      - run: |
