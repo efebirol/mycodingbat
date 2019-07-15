@@ -2,7 +2,7 @@ version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     
-    working_directory: ~/mycodingbat # directory where steps will run
+    working_directory: ~/repo # directory where steps will run
 
     docker: # run the steps with Docker
       - image: circleci/openjdk:8-jdk
@@ -11,9 +11,9 @@ jobs: # a collection of steps
 
       - checkout # check out source code to working directory
 
-      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+      #- restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+          #key: mycodingbat-{{ checksum "pom.xml" }}
       
       - run: |
          echo "Maven Dependency"
@@ -29,6 +29,7 @@ jobs: # a collection of steps
          echo Gebe mehrere Zeile in Circleci Commandline aus
          echo Hier mal 'pwd'mvn package # run the actual test
          pwd
+         ls
          
       - run: |
          mvn clean
