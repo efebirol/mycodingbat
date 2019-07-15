@@ -31,6 +31,14 @@ jobs: # a collection of steps
          pwd
          ls
          
-      - run: |
-         mvn clean
-         mvn package # run the actual test
+      - run:
+          name: Check current version of Maven
+          command: mvn -v         
+
+      - run:
+         name: Maven Clean of local repository
+         command: mvn clean
+         
+      - run:
+         name: Maven Package
+         command: mvn package # run the actual test
