@@ -93,10 +93,18 @@ public class CoderController {
 	 */
 	@RequestMapping(value = "/testendup/{inputparamstring}", method = RequestMethod.GET)
 	public String endup(@PathVariable ("inputparamstring") String inputstring ) {
+		String result ="";
+		int strlen = inputstring.length();
+		int lastchars = 3;
 		
+		if (strlen >= lastchars) {
+			result = inputstring.substring(0,strlen-lastchars)+(inputstring.substring(strlen-lastchars, strlen)).toUpperCase();
+		}
+		else {
+			result = inputstring.toUpperCase();
+		}
 		
-		
-		return "xyz";
+		return result;
 	}
 
 }

@@ -159,19 +159,28 @@ public class CoderControllerTest {
 	 * 
 	 * endUp("Hello") → "HeLLO" endUp("hi there") → "hi thERE" endUp("hi") → "HI"
 	 */
-	
-	
-	/* Aufruf des CoderController-Controllers für die lastdigit Methode*/
+
+	// Der eigentlich Test mit den Testwerten
 	@Test
-	public void TestEndUp() throws Exception
-	{
-		String testinput = "Hello";
+	public void TestEndUp() throws Exception {
+
+		// iteriere über Werte und rüfe Controller-Klasse auf
+		Assert.assertEquals(invokeControllerEndUp("Hello"), "HeLLO");
+		Assert.assertEquals(invokeControllerEndUp("hi there"), "hi thERE");
+		Assert.assertEquals(invokeControllerEndUp("hi"), "HI");
+		Assert.assertEquals(invokeControllerEndUp("woo hoo"), "woo HOO");
+		Assert.assertEquals(invokeControllerEndUp("xyz12"), "xyZ12");
+		Assert.assertEquals(invokeControllerEndUp(" "), " ");
+
+	}
+
+	/* Aufruf des CoderController-Controllers für die lastdigit Methode */
+	private String invokeControllerEndUp(String testinput) throws Exception {
 		MvcResult result = this.mockMvc
 				.perform(get("/testresults/testendup/{teststringparam}", testinput).accept("application/json"))
 				.andExpect(status().isOk()).andReturn();
-		
-		Assert.assertEquals("xyz", result.getResponse().getContentAsString());
-		
+
+		return result.getResponse().getContentAsString();
 	}
 
 }
