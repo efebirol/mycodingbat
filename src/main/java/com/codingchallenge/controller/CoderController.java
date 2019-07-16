@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingchallenge.helper.ZweiWerte;
-import com.codingchallenge.webservice.UserService;
+import com.codingchallenge.webservice.CoderService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,16 +19,16 @@ import lombok.Setter;
 @Setter // <--- Benutze Lombok Bibliothek (für Getter und Setter)
 @RestController
 @RequestMapping("/testresults")
-public class UserController {
+public class CoderController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	private final UserService userService;
+	private static final Logger logger = LoggerFactory.getLogger(CoderController.class);
+	private final CoderService userService;
 	private String name;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public CoderController(CoderService userService) {
 
-		logger.info("-- Usercontroller.java - Usercontroller() Konstruktor");
+		// logger.info("-- Usercontroller.java - Usercontroller() Konstruktor");
 
 		this.userService = userService;
 		this.setName("TestLombokGetterName");
@@ -35,7 +36,7 @@ public class UserController {
 
 	@RequestMapping(value = "/getuserwebpage", method = RequestMethod.GET)
 	public String getUserWebpage() {
-		logger.info("-- Usercontroller.java - getUserWebpage()");
+		// logger.info("-- Usercontroller.java - getUserWebpage()");
 		return this.getName();
 	}
 
@@ -47,7 +48,7 @@ public class UserController {
 	public boolean stringE(@PathVariable("inputstring") String inputstring) {
 
 		char c = 'e';
-		logger.info("-- UserController -- stringE() - inputstring: " + inputstring);
+		// logger.info("-- UserController -- stringE() - inputstring: " + inputstring);
 		int count = checkLetter(inputstring, 0, c);
 
 		return (count >= 1 && count <= 3) ? true : false;
@@ -65,18 +66,37 @@ public class UserController {
 	 * liest es über die URL-Variablen aus (".../?id=1,2,3" oder ".../?id=1&id=2")
 	 */
 	@RequestMapping(value = "/lastdigit/{inputnumberone}/{inputnumbertwo}", method = RequestMethod.GET)
-	public boolean lastdigit(@PathVariable("inputnumberone") int inputnumberone, @PathVariable("inputnumbertwo") int inputnumbertwo) {
-		logger.info("-- UserController -- lastdigit() - inputstring Wert 1: " + inputnumberone);
-		logger.info("-- UserController -- lastdigit() - inputstring Wert 2: " + inputnumbertwo);
-		
+	public boolean lastdigit(@PathVariable("inputnumberone") int inputnumberone,
+			@PathVariable("inputnumbertwo") int inputnumbertwo) {
+		// logger.info("-- UserController -- lastdigit() - inputstring Wert 1: " +
+		// inputnumberone);
+		// logger.info("-- UserController -- lastdigit() - inputstring Wert 2: " +
+		// inputnumbertwo);
+
 		int modValueOne = inputnumberone % 10;
 		int modValueTwo = inputnumbertwo % 10;
 
-		logger.info("-- UserController -- lastdigit() - modValueOne Wert 1: " + modValueOne);
-		logger.info("-- UserController -- lastdigit() - modValueTwo Wert 2: " + modValueTwo);
-		
+		// logger.info("-- UserController -- lastdigit() - modValueOne Wert 1: " +
+		// modValueOne);
+		// logger.info("-- UserController -- lastdigit() - modValueTwo Wert 2: " +
+		// modValueTwo);
+
 		return (modValueOne == modValueTwo) ? true : false;
 	}
+
+	/**
+	 * Given a string, return a new string where the last 3 chars are now in upper
+	 * case. If the string has less than 3 chars, uppercase whatever is there. Note
+	 * that str.toUpperCase() returns the uppercase version of a string.
+	 * 
+	 * endUp("Hello") → "HeLLO" endUp("hi there") → "hi thERE" endUp("hi") → "HI"
+	 */
+	@RequestMapping(value = "/testendup/{inputparamstring}", method = RequestMethod.GET)
+	public String endup(@PathVariable ("inputparamstring") String inputstring ) {
 		
+		
+		
+		return "xyz";
+	}
 
 }

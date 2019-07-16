@@ -3,8 +3,8 @@ package com.codingchallenge.webservice;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
-    public UserService() {
+public class CoderService {
+    public CoderService() {
         System.out.printf("--UserService.java - Konstruktor");
     }
     

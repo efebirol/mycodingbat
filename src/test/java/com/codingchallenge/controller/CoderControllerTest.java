@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codingchallenge.helper.ZweiWerte;
-import com.codingchallenge.webservice.UserService;
+import com.codingchallenge.webservice.CoderService;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(UserController.class)
-public class UserControllerTest {
+@WebMvcTest(CoderController.class)
+public class CoderControllerTest {
 
 	@MockBean
-	private UserService userService;
+	private CoderService userService;
 	@MockBean
-	private UserController userController;
+	private CoderController userController;
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -43,14 +43,12 @@ public class UserControllerTest {
 		// prüfen auf "null"
 		when(userController.stringE(anyString())).thenCallRealMethod();
 		when(userController.lastdigit(anyInt(), anyInt())).thenCallRealMethod();
+		when(userController.endup(anyString())).thenCallRealMethod();
 	}
 
 	@Test
 	public void testGetUserWebpage() throws Exception {
 		String shouldTestname = "TestLombokGetterName";
-		// given(reservationService.getRoomReservationsForDate("2017-01-01")).willReturn(mockReservationList);
-		// this.mockMvc.perform(get("/testresults")).andExpect(status().isOk()).andExpect(content().string(containsString("Test,
-		// JUnit")));
 		given(userController.getUserWebpage()).willReturn(shouldTestname);
 		this.mockMvc.perform(get("/testresults/getuserwebpage")).andExpect(status().isOk());
 	}
@@ -117,22 +115,21 @@ public class UserControllerTest {
 		List<ZweiWerte> numberListTrue = new ArrayList<ZweiWerte>();
 		List<ZweiWerte> numberListFalse = new ArrayList<ZweiWerte>();
 
-		//check TRUE Scenario
-		numberListTrue.add(new ZweiWerte(7,17));
-		numberListTrue.add(new ZweiWerte(3,113));
+		// check TRUE Scenario
+		numberListTrue.add(new ZweiWerte(7, 17));
+		numberListTrue.add(new ZweiWerte(3, 113));
 		numberListTrue.add(new ZweiWerte(114, 4));
-		numberListTrue.add(new ZweiWerte(10,0));
-		
-		//check FALSE Scenario
+		numberListTrue.add(new ZweiWerte(10, 0));
+
+		// check FALSE Scenario
 		checkLastDigit(numberListTrue, Boolean.TRUE);
-		numberListFalse.add(new ZweiWerte(6,17));
-		numberListTrue.add(new ZweiWerte(114,113));
-		numberListTrue.add(new ZweiWerte(11,0));
+		numberListFalse.add(new ZweiWerte(6, 17));
+		numberListTrue.add(new ZweiWerte(114, 113));
+		numberListTrue.add(new ZweiWerte(11, 0));
 		checkLastDigit(numberListFalse, Boolean.FALSE);
 	}
-	
 
-
+	// Aufruf mehrerer Tests
 	private void checkLastDigit(List<ZweiWerte> numberList, Boolean excepted) {
 		numberList.stream().forEach(x -> {
 			String content = null;
@@ -147,12 +144,34 @@ public class UserControllerTest {
 		});
 	}
 
-	/* Aufruf des Controllers */
+	/* Aufruf des CoderController-Controllers für die lastdigit Methode */
 	private String invokeControllerLastdigit(ZweiWerte listTwoValues) throws Exception {
-		MvcResult result = this.mockMvc
-				.perform(get("/testresults/lastdigit/{inputnumberone}/{inputnumberone}", listTwoValues.getValueOne(), listTwoValues.getValueTwo())
-						.accept("application/json"))
+		MvcResult result = this.mockMvc.perform(get("/testresults/lastdigit/{inputnumberone}/{inputnumberone}",
+				listTwoValues.getValueOne(), listTwoValues.getValueTwo()).accept("application/json"))
 				.andExpect(status().isOk()).andReturn();
 		return result.getResponse().getContentAsString();
 	}
+
+	/**
+	 * Given a string, return a new string where the last 3 chars are now in upper
+	 * case. If the string has less than 3 chars, uppercase whatever is there. Note
+	 * that str.toUpperCase() returns the uppercase version of a string.
+	 * 
+	 * endUp("Hello") → "HeLLO" endUp("hi there") → "hi thERE" endUp("hi") → "HI"
+	 */
+	
+	
+	/* Aufruf des CoderController-Controllers für die lastdigit Methode*/
+	@Test
+	public void TestEndUp() throws Exception
+	{
+		String testinput = "Hello";
+		MvcResult result = this.mockMvc
+				.perform(get("/testresults/testendup/{teststringparam}", testinput).accept("application/json"))
+				.andExpect(status().isOk()).andReturn();
+		
+		Assert.assertEquals("xyz", result.getResponse().getContentAsString());
+		
+	}
+
 }
