@@ -53,6 +53,7 @@ public class CoderControllerTest
     when(userController.stringE(anyString())).thenCallRealMethod();
     when(userController.lastdigit(anyInt(), anyInt())).thenCallRealMethod();
     when(userController.endup(anyString())).thenCallRealMethod();
+    when(userController.everynth(anyString(), anyInt())).thenCallRealMethod();
   }
 
   /**
@@ -207,6 +208,23 @@ public class CoderControllerTest
    * everyNth("Miracle", 2) → "Mrce"
    * everyNth("abcdefg", 2) → "aceg"
    * everyNth("abcdefg", 3) → "adg"
+   * everyNth("Chocolate", 3) → "Cca"
+   * everyNth("Chocolates", 3) → "Ccas"
+   * everyNth("Chocolates", 4) → "Coe"
+   * everyNth("Chocolates", 100) → "C"
    */
+
+  @Test
+  public void TestEveryNth()
+  {
+    Assert.assertEquals("Mrce", this.userController.everynth("Miracle", 2));
+    Assert.assertEquals("aceg", this.userController.everynth("abcdefg", 2));
+    Assert.assertEquals("adg", this.userController.everynth("abcdefg", 3));
+    Assert.assertEquals("Cca", this.userController.everynth("Chocolate", 3));
+    Assert.assertEquals("Ccas", this.userController.everynth("Chocolates", 3));
+    Assert.assertEquals("Coe", this.userController.everynth("Chocolates", 4));
+    Assert.assertEquals("C", this.userController.everynth("Chocolates", 100));
+  }
+
 
 }

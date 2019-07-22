@@ -24,9 +24,9 @@ import lombok.Setter;
 public class CoderController
 {
 
-  private static final int modNumber = 10;
+  private static final int MODNUMBER = 10;
 
-  private static final Logger logger = LoggerFactory.getLogger(CoderController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CoderController.class);
 
   private final CoderService userService;
 
@@ -57,11 +57,12 @@ public class CoderController
    * http://localhost:8080/testresults/stringe/IrgendeinString
    */
   @RequestMapping(value = "/stringe/{inputstring}", method = RequestMethod.GET)
+  @SuppressWarnings("PMD.GuardLogStatement")
   public boolean stringE(@PathVariable("inputstring") String inputstring)
   {
 
     char c = 'e';
-    logger.info("-- UserController -- stringE() - inputstring: " + inputstring);
+    LOGGER.info("-- UserController -- stringE() - inputstring: " + inputstring);
     int count = checkLetter(inputstring, 0, c);
 
     final int maxVal = 3;
@@ -88,8 +89,8 @@ public class CoderController
     // logger.info("-- UserController -- lastdigit() - inputstring Wert 2: " +
     // inputnumbertwo);
 
-    int modValueOne = inputnumberone % modNumber;
-    int modValueTwo = inputnumbertwo % modNumber;
+    int modValueOne = inputnumberone % MODNUMBER;
+    int modValueTwo = inputnumbertwo % MODNUMBER;
 
     // logger.info("-- UserController -- lastdigit() - modValueOne Wert 1: " +
     // modValueOne);
@@ -132,5 +133,31 @@ public class CoderController
    * everyNth("abcdefg", 2) → "aceg"
    * everyNth("abcdefg", 3) → "adg"
    */
+  @RequestMapping(value = "/testeverynth/{str}/{n}", method = RequestMethod.GET)
+  public String everynth(@PathVariable("str") String str, @PathVariable("n") int n)
+  {
+    LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
+    LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
+    String result = "";
+    if (!(str.equals("")))
+    {
+      for ( int i = 0 ; i <= str.length()-1 ; i++ )
+      {
+        // LOGGER.info("-- UserController -- everynth() - (i == 0):"+(i == 0));
+        // LOGGER.info("-- UserController -- everynth() - (i % n == 0):"+(i % n == 0));
 
+        // check if Nth number
+        if (i % n == 0)
+        {
+          // LOGGER.info("-- UserController -- everynth() - str.charAt(i):" + str.charAt(i));
+          result = result + str.charAt(i);
+        }
+      }
+      // LOGGER.info("-- UserController -- everynth() - Variable result:"+result);
+    }
+
+
+    return result;
+
+  }
 }
