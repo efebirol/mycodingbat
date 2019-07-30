@@ -30,8 +30,9 @@ build/
 ### VS Code ###
 .vscode/
 
-### Eclpse ###
+### Eclipse ###
 .metadata
+.metadata/**
 bin/
 tmp/
 *.tmp
