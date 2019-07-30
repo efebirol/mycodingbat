@@ -1,5 +1,6 @@
 package com.codingchallenge.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -38,7 +39,7 @@ public class CoderControllerTest
   private CoderService userService;
 
   @MockBean
-  private CoderController userController;
+  private CoderController coderController;
 
   @Autowired
   private MockMvc mockMvc;
@@ -50,10 +51,13 @@ public class CoderControllerTest
   public void beforeTest()
   {
     // "
-    when(userController.stringE(anyString())).thenCallRealMethod();
-    when(userController.lastdigit(anyInt(), anyInt())).thenCallRealMethod();
-    when(userController.endup(anyString())).thenCallRealMethod();
-    when(userController.everynth(anyString(), anyInt())).thenCallRealMethod();
+    when(coderController.stringE(anyString())).thenCallRealMethod();
+    when(coderController.lastdigit(anyInt(), anyInt())).thenCallRealMethod();
+    when(coderController.endup(anyString())).thenCallRealMethod();
+    when(coderController.everynth(anyString(), anyInt())).thenCallRealMethod();
+    when(coderController.stringTimes(anyString(), anyInt())).thenCallRealMethod();
+    when(coderController.frontTimes(anyString(), anyInt())).thenCallRealMethod();
+    when(coderController.countXX(anyString())).thenCallRealMethod();
   }
 
   /**
@@ -63,7 +67,7 @@ public class CoderControllerTest
   public void testGetUserWebpage() throws Exception
   {
     String shouldTestname = "TestLombokGetterName";
-    given(userController.getUserWebpage()).willReturn(shouldTestname);
+    given(coderController.getUserWebpage()).willReturn(shouldTestname);
     this.mockMvc.perform(get("/testresults/getuserwebpage")).andExpect(status().isOk());
   }
 
@@ -217,13 +221,82 @@ public class CoderControllerTest
   @Test
   public void TestEveryNth()
   {
-    Assert.assertEquals("Mrce", this.userController.everynth("Miracle", 2));
-    Assert.assertEquals("aceg", this.userController.everynth("abcdefg", 2));
-    Assert.assertEquals("adg", this.userController.everynth("abcdefg", 3));
-    Assert.assertEquals("Cca", this.userController.everynth("Chocolate", 3));
-    Assert.assertEquals("Ccas", this.userController.everynth("Chocolates", 3));
-    Assert.assertEquals("Coe", this.userController.everynth("Chocolates", 4));
-    Assert.assertEquals("C", this.userController.everynth("Chocolates", 100));
+    Assert.assertEquals("Mrce", this.coderController.everynth("Miracle", 2));
+    Assert.assertEquals("aceg", this.coderController.everynth("abcdefg", 2));
+    Assert.assertEquals("adg", this.coderController.everynth("abcdefg", 3));
+    Assert.assertEquals("Cca", this.coderController.everynth("Chocolate", 3));
+    Assert.assertEquals("Ccas", this.coderController.everynth("Chocolates", 3));
+    Assert.assertEquals("Coe", this.coderController.everynth("Chocolates", 4));
+    Assert.assertEquals("C", this.coderController.everynth("Chocolates", 100));
+  }
+
+  /*
+   * Given a string and a non-negative int n, return a larger string that is n copies of the original string.
+   * stringTimes("Hi", 2) → "HiHi"
+   * stringTimes("Hi", 3) → "HiHiHi"
+   * stringTimes("Hi", 1) → "Hi"
+   */
+  @Test
+  public void TestStringTimes()
+  {
+    // einfache Test der Funktion (ohne Rest)
+    Assert.assertEquals("HiHi", this.coderController.stringTimes("Hi", 2));
+    Assert.assertEquals("HiHiHi", this.coderController.stringTimes("Hi", 3));
+    Assert.assertEquals("Hi", this.coderController.stringTimes("Hi", 1));
+
+    // Test der Funktion mit Überprüfung der Restschnittstelle
+  }
+
+  /**
+   * Given a string and a non-negative int n, we'll say that the front of the string is the first 3 chars, or whatever is there if the string is less than length 3. Return n copies
+   * of the front;
+   * frontTimes("Chocolate", 2) → "ChoCho"
+   * frontTimes("Chocolate", 3) → "ChoChoCho"
+   * frontTimes("Abc", 3) → "AbcAbcAbc"
+   * 
+   * @param i
+   * @param string
+   */
+  @Test
+  public void TestFrontTimes()
+  {
+    // einfache Test der Funktion (ohne Rest)
+    Assert.assertEquals("ChoCho", this.coderController.frontTimes("Chocolate", 2));
+    Assert.assertEquals("ChoChoCho", this.coderController.frontTimes("Chocolate", 3));
+    Assert.assertEquals("AbcAbcAbc", this.coderController.frontTimes("Abc", 3));
+    Assert.assertEquals("AbAbAbAb", this.coderController.frontTimes("Ab", 4));
+    Assert.assertEquals("AAAA", this.coderController.frontTimes("A", 4));
+    Assert.assertEquals("", this.coderController.frontTimes("", 4));
+  }
+
+  @Test
+  public void TestFrontTimesRestApi() throws Exception
+  {
+    // Test der Funktion mit Überprüfung der Restschnittstelle
+    MvcResult result = this.mockMvc.perform(get("/testresults/testfronttimes/Chocolate/2").accept("application/json")).andExpect(status().isOk()).andReturn();
+    result = this.mockMvc.perform(get("/testresults/testfronttimes/Chocolate/3").accept("application/json")).andExpect(status().isOk()).andReturn();
+    result = this.mockMvc.perform(get("/testresults/testfronttimes/AbcAbcAbc/3").accept("application/json")).andExpect(status().isOk()).andReturn();
+  }
+
+  /**
+   * Count the number of "xx" in the given string. We'll say that overlapping is allowed, so "xxx" contains 2 "xx".
+   * countXX("abcxx") → 1
+   * countXX("xxx") → 2
+   * countXX("xxxx") → 3
+   * @throws Exception 
+   */
+  @Test
+  public void TestCountXX() throws Exception
+  {
+    //einfacher Test
+    Assert.assertEquals(1, this.coderController.countXX("abcxx"));
+    Assert.assertEquals(2, this.coderController.countXX("xxx"));
+    Assert.assertEquals(3, this.coderController.countXX("xxxx"));
+    
+    //RESTApi Schnittstellen Test
+    MvcResult result = this.mockMvc.perform(get("/testresults/testcountxx/abcxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    result = this.mockMvc.perform(get("/testresults/testcountxx/xxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    result = this.mockMvc.perform(get("/testresults/testcountxx/xxxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
   }
 
 

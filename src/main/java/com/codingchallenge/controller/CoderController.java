@@ -141,7 +141,7 @@ public class CoderController
     String result = "";
     if (!(str.equals("")))
     {
-      for ( int i = 0 ; i <= str.length()-1 ; i++ )
+      for ( int i = 0 ; i <= str.length() - 1 ; i++ )
       {
         // LOGGER.info("-- UserController -- everynth() - (i == 0):"+(i == 0));
         // LOGGER.info("-- UserController -- everynth() - (i % n == 0):"+(i % n == 0));
@@ -156,8 +156,83 @@ public class CoderController
       // LOGGER.info("-- UserController -- everynth() - Variable result:"+result);
     }
 
+    return result;
+  }
+
+  /*
+   * Given a string and a non-negative int n, return a larger string that is n copies of the original string.
+   * stringTimes("Hi", 2) → "HiHi"
+   * stringTimes("Hi", 3) → "HiHiHi"
+   * stringTimes("Hi", 1) → "Hi"
+   */
+  @RequestMapping(value = "/teststringtimes/{str}/{n}", method = RequestMethod.GET)
+  public String stringTimes(@PathVariable("str") String str, @PathVariable("n") int n)
+  {
+    String result = "";
+    final String word = str;
+
+    // LOGGER.info("-- UserController -- stringTimes() - str: "+str);
+    // LOGGER.info("-- UserController -- stringTimes() - n: "+n);
+
+    if (n > 0)
+    {
+      for ( int i = 0 ; i < n ; i++ )
+      {
+        result += word;
+      }
+    }
 
     return result;
+  }
 
+  /**
+   * Given a string and a non-negative int n, we'll say that the front of the string is the first 3 chars, or whatever is there if the string is less than length 3. Return n copies
+   * of the front;
+   * frontTimes("Chocolate", 2) → "ChoCho"
+   * frontTimes("Chocolate", 3) → "ChoChoCho"
+   * frontTimes("Abc", 3) → "AbcAbcAbc"
+   * 
+   * @param i
+   * @param string
+   */
+  @RequestMapping(value = "/testfronttimes/{str}/{n}", method = RequestMethod.GET)
+  public String frontTimes(@PathVariable("str") String str, @PathVariable("n") int n)
+  {
+    String result = "";
+    if (n > 0)
+    {
+      for ( int i = 0 ; i < n ; i++ )
+      {
+        for ( int j = 0 ; (j < str.length()) && (j < 3) ; j++ )
+        {
+          // LOGGER.info("-- UserController -- testfronttimes() - str: "+str.charAt(i));
+          // LOGGER.info("-- UserController -- testfronttimes() - i : "+i+" j "+j);
+          result += str.charAt(j);
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Count the number of "xx" in the given string. We'll say that overlapping is allowed, so "xxx" contains 2 "xx".
+   * countXX("abcxx") → 1
+   * countXX("xxx") → 2
+   * countXX("xxxx") → 3
+   */
+  @RequestMapping(value = "/testcountxx/{str}", method = RequestMethod.GET)
+  public int countXX(@PathVariable("str") String str)
+  {
+    int result = 0;
+
+
+    for ( int i = 0 ; i < str.length() ; i++ )
+    {
+//      LOGGER.info("-- UserController -- countXX() - str: " + str);
+      result = ((str.charAt(i) == 'x') && ((i != 0) && (str.charAt(i - 1) == 'x'))) ? ++result : result;
+//      LOGGER.info("-- UserController -- countXX() - RESULT: " + result);
+    }
+
+    return result;
   }
 }
