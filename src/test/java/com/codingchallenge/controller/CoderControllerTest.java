@@ -3,6 +3,7 @@ package com.codingchallenge.controller;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -58,6 +59,7 @@ public class CoderControllerTest
     when(coderController.stringTimes(anyString(), anyInt())).thenCallRealMethod();
     when(coderController.frontTimes(anyString(), anyInt())).thenCallRealMethod();
     when(coderController.countXX(anyString())).thenCallRealMethod();
+    when(coderController.doublex(anyString())).thenCallRealMethod();
   }
 
   /**
@@ -283,21 +285,52 @@ public class CoderControllerTest
    * countXX("abcxx") → 1
    * countXX("xxx") → 2
    * countXX("xxxx") → 3
-   * @throws Exception 
+   * 
+   * @throws Exception
    */
   @Test
   public void TestCountXX() throws Exception
   {
-    //einfacher Test
+    // einfacher Test
     Assert.assertEquals(1, this.coderController.countXX("abcxx"));
     Assert.assertEquals(2, this.coderController.countXX("xxx"));
     Assert.assertEquals(3, this.coderController.countXX("xxxx"));
-    
-    //RESTApi Schnittstellen Test
+
+    // RESTApi Schnittstellen Test
     MvcResult result = this.mockMvc.perform(get("/testresults/testcountxx/abcxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
     result = this.mockMvc.perform(get("/testresults/testcountxx/xxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
     result = this.mockMvc.perform(get("/testresults/testcountxx/xxxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
   }
 
+  /**
+   * Given a string, return true if the first instance of "x" in the string is immediately followed by another "x".
+   * doubleX("axxbb") → true
+   * doubleX("axaxax") → false
+   * doubleX("xxxxx") → true
+   * @throws Exception 
+   */
+  @Test
+  public void Testdoublex() throws Exception
+  {
+    // einfacher Test
+    Assert.assertEquals(true, this.coderController.doublex("axxbb"));
+    Assert.assertEquals(false, this.coderController.doublex("axaxax"));
+    Assert.assertEquals(true, this.coderController.doublex("xxxxx"));
+    Assert.assertEquals(false, this.coderController.doublex("xaxxx"));
+    Assert.assertEquals(false, this.coderController.doublex("aaaax"));
+    Assert.assertEquals(false, this.coderController.doublex(""));
+    Assert.assertEquals(false, this.coderController.doublex("abc"));
+    Assert.assertEquals(false, this.coderController.doublex("x"));
+    Assert.assertEquals(true, this.coderController.doublex("xx"));
+    Assert.assertEquals(false, this.coderController.doublex("xax"));
+    Assert.assertEquals(false, this.coderController.doublex("xaxx"));
+
+    // REST Schnittstellen Tests der URL
+    MvcResult result = this.mockMvc.perform(get("/testresults/testdoublex/axxbb/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    result = this.mockMvc.perform(get("/testresults/testdoublex/axaxax/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("false", result.getResponse().getContentAsString());
+    result = this.mockMvc.perform(get("/testresults/testdoublex/xxxxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("true", result.getResponse().getContentAsString());
+  }
 
 }

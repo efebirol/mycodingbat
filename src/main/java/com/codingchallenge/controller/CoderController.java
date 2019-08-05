@@ -139,7 +139,7 @@ public class CoderController
     LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
     LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
     String result = "";
-    if (!(str.equals("")))
+    if (!("".equals(str)))
     {
       for ( int i = 0 ; i <= str.length() - 1 ; i++ )
       {
@@ -228,11 +228,42 @@ public class CoderController
 
     for ( int i = 0 ; i < str.length() ; i++ )
     {
-//      LOGGER.info("-- UserController -- countXX() - str: " + str);
+      // LOGGER.info("-- UserController -- countXX() - str: " + str);
       result = ((str.charAt(i) == 'x') && ((i != 0) && (str.charAt(i - 1) == 'x'))) ? ++result : result;
-//      LOGGER.info("-- UserController -- countXX() - RESULT: " + result);
+      // LOGGER.info("-- UserController -- countXX() - RESULT: " + result);
     }
 
     return result;
   }
+
+  /**
+   * Given a string, return true if the first instance of "x" in the string is immediately followed by another "x".
+   * doubleX("axxbb") → true
+   * doubleX("axaxax") → false
+   * doubleX("xxxxx") → true
+   */
+  @RequestMapping(value = "/testdoublex/{str}", method = RequestMethod.GET)
+  public boolean doublex(@PathVariable("str") String str)
+  {
+    boolean result = false;
+
+    for ( int i = 0 ; i < str.length() -1 ; i++ )
+    {
+//      LOGGER.info("-- UserController -- doublex() - str.charAt(i): " + str.charAt(i));
+//      LOGGER.info("-- UserController -- doublex() - if-Abfrage: "+ (  !( "".equals(str))  && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x') );
+      if (  !( "".equals(str))  && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x')
+      {
+        result = true;
+        break;
+      }
+      //prüfe ob "x", gleich ein weiteres folgt
+      else if( (str.charAt(i) == 'x') && !(str.charAt(i + 1) == 'x') ){
+//        LOGGER.info("-- UserController -- doublex() - elseif");
+        break;
+      }
+    }
+
+    return result;
+  }
+
 }
