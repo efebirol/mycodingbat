@@ -62,7 +62,7 @@ public class CoderController
   {
 
     char c = 'e';
-    LOGGER.info("-- UserController -- stringE() - inputstring: " + inputstring);
+//    LOGGER.info("-- UserController -- stringE() - inputstring: " + inputstring);
     int count = checkLetter(inputstring, 0, c);
 
     final int maxVal = 3;
@@ -136,8 +136,8 @@ public class CoderController
   @RequestMapping(value = "/testeverynth/{str}/{n}", method = RequestMethod.GET)
   public String everynth(@PathVariable("str") String str, @PathVariable("n") int n)
   {
-    LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
-    LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
+//    LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
+//    LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
     String result = "";
     if (!("".equals(str)))
     {
@@ -247,23 +247,56 @@ public class CoderController
   {
     boolean result = false;
 
-    for ( int i = 0 ; i < str.length() -1 ; i++ )
+    for ( int i = 0 ; i < str.length() - 1 ; i++ )
     {
-//      LOGGER.info("-- UserController -- doublex() - str.charAt(i): " + str.charAt(i));
-//      LOGGER.info("-- UserController -- doublex() - if-Abfrage: "+ (  !( "".equals(str))  && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x') );
-      if (  !( "".equals(str))  && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x')
+      // LOGGER.info("-- UserController -- doublex() - str.charAt(i): " + str.charAt(i));
+      // LOGGER.info("-- UserController -- doublex() - if-Abfrage: "+ ( !( "".equals(str)) && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x') );
+      if (!("".equals(str)) && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x')
       {
         result = true;
         break;
       }
-      //prüfe ob "x", gleich ein weiteres folgt
-      else if( (str.charAt(i) == 'x') && !(str.charAt(i + 1) == 'x') ){
-//        LOGGER.info("-- UserController -- doublex() - elseif");
+      // prüfe ob "x", gleich ein weiteres folgt
+      else if ((str.charAt(i) == 'x') && !(str.charAt(i + 1) == 'x'))
+      {
+        // LOGGER.info("-- UserController -- doublex() - elseif");
         break;
       }
     }
 
     return result;
   }
+
+
+  /**
+   * Given a non-empty string like "Code" return a string like "CCoCodCode".
+   * stringSplosion("Code") → "CCoCodCode"
+   * stringSplosion("abc") → "aababc"
+   * stringSplosion("ab") → "aab"
+   * 
+   * @param str
+   * @return
+   */
+  @RequestMapping(value = "/stringsplosion/{str}", method = RequestMethod.GET)
+  public String Stringsplosion(@PathVariable("str") String str)
+  {
+    String result = "";
+    for ( int i = 0 ; i <= str.length() ; i++ )
+    {
+      result = result + str.substring(0, i);
+    }
+
+    // LOGGER.info("-- CoderController.java - Stringsplosion - result:"+result);
+
+    return result;
+  }
+
+  /**
+   * Given a string, return the count of the number of times that a substring length 2 appears in the string and also as the last 2 chars of the string, so "hixxxhi" yields 1 (we
+   * won't count the end substring).
+   * last2("hixxhi") → 1
+   * last2("xaxxaxaxx") → 1
+   * last2("axxxaaxx") → 2
+   */
 
 }

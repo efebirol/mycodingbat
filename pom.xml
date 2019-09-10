@@ -14,9 +14,20 @@
 	<name>coding-challgenge</name>
 	<description>Spring Boot for Codingbat challenges</description>
 
-	<properties>
-		<java.version>8</java.version>
-	</properties>
+
+
+  <properties>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <java.version>8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- dependency versions -->
+    <version.spotbugs-annotations>3.1.12</version.spotbugs-annotations>
+    <version.spring-shell>2.0.1.RELEASE</version.spring-shell>
+    <version.persistence>2.2.1</version.persistence>
+    <version.hibernate>5.4.2.Final</version.hibernate>
+  </properties>
 
 	<dependencies>
 		<dependency>

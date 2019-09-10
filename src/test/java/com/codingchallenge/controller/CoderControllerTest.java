@@ -60,6 +60,7 @@ public class CoderControllerTest
     when(coderController.frontTimes(anyString(), anyInt())).thenCallRealMethod();
     when(coderController.countXX(anyString())).thenCallRealMethod();
     when(coderController.doublex(anyString())).thenCallRealMethod();
+    when(coderController.Stringsplosion(anyString())).thenCallRealMethod();
   }
 
   /**
@@ -331,6 +332,37 @@ public class CoderControllerTest
     Assert.assertEquals("false", result.getResponse().getContentAsString());
     result = this.mockMvc.perform(get("/testresults/testdoublex/xxxxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("true", result.getResponse().getContentAsString());
+  }
+  
+  
+
+  /**
+   * Given a non-empty string like "Code" return a string like "CCoCodCode".
+   * stringSplosion("Code") → "CCoCodCode"
+   * stringSplosion("abc") → "aababc"
+   * stringSplosion("ab") → "aab"
+   * @param str 
+   * @return 
+   * @throws Exception 
+   */  
+  @Test
+  public void Teststringsplosion() throws Exception
+  {
+    //einfacher Test
+    Assert.assertEquals("CCoCodCode", this.coderController.Stringsplosion("Code"));
+    Assert.assertEquals("aababc", this.coderController.Stringsplosion("abc"));
+    Assert.assertEquals("aab", this.coderController.Stringsplosion("ab"));
+    
+    //REST API Test
+    MvcResult result = this.mockMvc.perform(get("/testresults/stringsplosion/Code/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("CCoCodCode", result.getResponse().getContentAsString());
+
+    result = this.mockMvc.perform(get("/testresults/stringsplosion/abc/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("aababc", result.getResponse().getContentAsString());
+
+    result = this.mockMvc.perform(get("/testresults/stringsplosion/ab/").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("aab", result.getResponse().getContentAsString());
+    
   }
 
 }
