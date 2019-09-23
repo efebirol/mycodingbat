@@ -1,9 +1,8 @@
 package com.codingchallenge.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -61,6 +60,7 @@ public class CoderControllerTest
     when(coderController.countXX(anyString())).thenCallRealMethod();
     when(coderController.doublex(anyString())).thenCallRealMethod();
     when(coderController.Stringsplosion(anyString())).thenCallRealMethod();
+    when(coderController.arrayCount9(any())).thenCallRealMethod();
   }
 
   /**
@@ -308,7 +308,8 @@ public class CoderControllerTest
    * doubleX("axxbb") → true
    * doubleX("axaxax") → false
    * doubleX("xxxxx") → true
-   * @throws Exception 
+   * 
+   * @throws Exception
    */
   @Test
   public void Testdoublex() throws Exception
@@ -333,27 +334,28 @@ public class CoderControllerTest
     result = this.mockMvc.perform(get("/testresults/testdoublex/xxxxx/").accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("true", result.getResponse().getContentAsString());
   }
-  
-  
+
+
 
   /**
    * Given a non-empty string like "Code" return a string like "CCoCodCode".
    * stringSplosion("Code") → "CCoCodCode"
    * stringSplosion("abc") → "aababc"
    * stringSplosion("ab") → "aab"
-   * @param str 
-   * @return 
-   * @throws Exception 
-   */  
+   * 
+   * @param str
+   * @return
+   * @throws Exception
+   */
   @Test
   public void Teststringsplosion() throws Exception
   {
-    //einfacher Test
+    // einfacher Test
     Assert.assertEquals("CCoCodCode", this.coderController.Stringsplosion("Code"));
     Assert.assertEquals("aababc", this.coderController.Stringsplosion("abc"));
     Assert.assertEquals("aab", this.coderController.Stringsplosion("ab"));
-    
-    //REST API Test
+
+    // REST API Test
     MvcResult result = this.mockMvc.perform(get("/testresults/stringsplosion/Code/").accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("CCoCodCode", result.getResponse().getContentAsString());
 
@@ -362,7 +364,41 @@ public class CoderControllerTest
 
     result = this.mockMvc.perform(get("/testresults/stringsplosion/ab/").accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("aab", result.getResponse().getContentAsString());
-    
+
+  }
+
+  /**
+   * Given an array of ints, return the number of 9's in the array.
+   * arrayCount9([1, 2, 9]) → 1
+   * arrayCount9([1, 9, 9]) → 2
+   * arrayCount9([1, 9, 9, 3, 9]) → 3
+   * 
+   * @throws Exception
+   */
+  @Test
+  public void TestArrayCount9() throws Exception
+  {
+    // Simple JUnit Test
+
+    // Setup Tests
+    int[] actualArray = new int[]{1, 2, 9};
+    int[] actualArray2 = new int[]{1, 9, 9};
+    int[] actualArray3 = new int[]{1, 9, 9, 3, 9};
+
+    // Testing
+    Assert.assertEquals(1, this.coderController.arrayCount9(actualArray));
+    Assert.assertEquals(2, this.coderController.arrayCount9(actualArray2));
+    Assert.assertEquals(3, this.coderController.arrayCount9(actualArray3));
+
+    // Rest Endpoint Test (hier eine Collection, Array, etc. von integern)
+    MvcResult result = this.mockMvc.perform(get("/testresults/arrayCount9/1,2,9").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("1", result.getResponse().getContentAsString());
+
+    result = this.mockMvc.perform(get("/testresults/arrayCount9/1,9,9").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("2", result.getResponse().getContentAsString());
+
+    result = this.mockMvc.perform(get("/testresults/arrayCount9/1,9,9,3,9").accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("3", result.getResponse().getContentAsString());
   }
 
 }

@@ -45,6 +45,12 @@ public class CoderController
     this.setName("TestLombokGetterName");
   }
 
+  @RequestMapping(value = "/hellorestendpoint", method = RequestMethod.GET)
+  public String helloRestResponse()
+  {
+    return "hello";
+  }
+
   @RequestMapping(value = "/getuserwebpage", method = RequestMethod.GET)
   public String getUserWebpage()
   {
@@ -62,7 +68,7 @@ public class CoderController
   {
 
     char c = 'e';
-//    LOGGER.info("-- UserController -- stringE() - inputstring: " + inputstring);
+    // LOGGER.info("-- UserController -- stringE() - inputstring: " + inputstring);
     int count = checkLetter(inputstring, 0, c);
 
     final int maxVal = 3;
@@ -136,8 +142,8 @@ public class CoderController
   @RequestMapping(value = "/testeverynth/{str}/{n}", method = RequestMethod.GET)
   public String everynth(@PathVariable("str") String str, @PathVariable("n") int n)
   {
-//    LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
-//    LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
+    // LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
+    // LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
     String result = "";
     if (!("".equals(str)))
     {
@@ -292,11 +298,29 @@ public class CoderController
   }
 
   /**
-   * Given a string, return the count of the number of times that a substring length 2 appears in the string and also as the last 2 chars of the string, so "hixxxhi" yields 1 (we
-   * won't count the end substring).
-   * last2("hixxhi") → 1
-   * last2("xaxxaxaxx") → 1
-   * last2("axxxaaxx") → 2
+   * Ich: Diese Funktion nimmt als URL Parameter eine Array an Integern an
+   * Given an array of ints, return the number of 9's in the array.
+   * arrayCount9([1, 2, 9]) → 1
+   * arrayCount9([1, 9, 9]) → 2
+   * arrayCount9([1, 9, 9, 3, 9]) → 3
+   * Info: Beispielaufruf:
+   * http://localhost:8090/testresults/arrayCount9/1,2,9
+   * - die Werte "1,2,9" werden in das Paramter "nums"-Array übergeben
    */
+  @RequestMapping(value = "/arrayCount9/{nums}", method = RequestMethod.GET)
+  public int arrayCount9(@PathVariable("nums") int[] nums)
+  {
+    int result = 0;
+//    LOGGER.info("\"-- CoderController.java - arrayCount9()");
+
+    for ( int i = 0 ; i < nums.length ; i++ )
+    {
+//      LOGGER.info("\"-- CoderController.java - arrayCount9() - nums:" + nums[i]);
+      result = (nums[i] == 9) ? (result + 1) : result;
+    }
+
+    return result;
+  }
+
 
 }
