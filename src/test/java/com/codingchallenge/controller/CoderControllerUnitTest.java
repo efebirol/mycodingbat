@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Quelle: https://stackabuse.com/how-to-test-a-spring-boot-application/
  * Vorteil:
  * - muss keine tatsächliche Verbindung (z. B. zur DB) aufbauen, sondern mocke/simuliere diese.
+ * - Polymorphismus - binde mich nicht an eine bestimmte Klasse (Stichwort: keine/wenig Abhängigkeiten)
  */
 
 
@@ -26,7 +27,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CoderControllerUnitTest
 {
 
-  @MockBean
+  /*
+   * ToDo:
+   * MockBean Beispiel
+   * MockBean - Überschreibt/mockt eine Bean im SpringContext-Pool wenn es gestartet wird
+   */
+
+
+  /* Mock - Simuliert eine Klasse oder ein Objekt. Muss initialisiert werden und ein "when-thenReturn"-Binding haben */
+  @Mock
   CoderController coderControllerMock;
 
   /*
@@ -42,11 +51,12 @@ public class CoderControllerUnitTest
   {
     // Variablen
 
+    // Initializiere alle anhängenden Dependencies (@Mock) an der eigentlichen Instanz (hier: @InjectMocks)
+    MockitoAnnotations.initMocks(this);
+
     // Mocks
     Mockito.when(this.coderControllerMock.testAMock(anyString())).thenReturn("dies ist simulierter Mock, returniert gewünschten String, NICHT den echten von der Funktion");
 
-    // Initializiere alle anhängenden Dependencies (@Mock) an der eigentlichen Instanz (hier: @InjectMocks)
-    MockitoAnnotations.initMocks(this);
   }
 
   @Test

@@ -28,19 +28,27 @@ public class CoderController
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CoderController.class);
 
-  private final CoderService userService;
+  private CoderService userService;
 
   private String name;
 
   /**
    * @author Efe
    */
+
+  public CoderController()
+  {
+    this.userService = new CoderService();
+
+  }
+
   @Autowired
   public CoderController(CoderService userService)
   {
 
     // logger.info("-- Usercontroller.java - Usercontroller() Konstruktor");
 
+    this.userService = new CoderService();
     this.userService = userService;
     this.setName("TestLombokGetterName");
   }
@@ -322,6 +330,14 @@ public class CoderController
     return result;
   }
 
+  /**
+   * Dummy Test für JUnit Mocks
+   */
+  @RequestMapping(value = "/birolsmock")
+  public String testAMock(String text)
+  {
+    return "echte Methode, nicht mock";
+  }
 
   /**
    * Given an array of ints, return true if one of the first 4 elements in the array is a 9. The array length may be less than 4.
@@ -330,10 +346,21 @@ public class CoderController
    * arrayFront9([1, 2, 3, 4, 5]) → false
    */
   @RequestMapping(value = "/arrayFront9/{nums}", method = RequestMethod.GET)
-  public boolean arrayFront9(int[] nums)
+  public boolean arrayFront9(@PathVariable("nums") int[] nums)
   {
+    boolean result = false;
 
-    return true;
+    for ( int i = 0 ; i < nums.length ; i++ )
+    {
+      LOGGER.info("nums.length: " + nums.length + "Position: " + i + " mit Wert: " + nums[i]);
+      if (nums[i] == 9 && i < 4)
+      {
+        LOGGER.info("True :-)");
+        result = true;
+      }
+    }
+    LOGGER.info("False:-)");
+    return result;
 
 
   }
