@@ -59,7 +59,7 @@ public class CoderControllerRestTest
     when(coderController.countXX(anyString())).thenCallRealMethod();
     when(coderController.doublex(anyString())).thenCallRealMethod();
     when(coderController.Stringsplosion(anyString())).thenCallRealMethod();
-    when(coderController.arrayFront9(any())).thenCallRealMethod();
+    when(coderController.arrayCount9(any())).thenCallRealMethod();
   }
 
   /**
@@ -385,9 +385,9 @@ public class CoderControllerRestTest
     int[] actualArray3 = new int[]{1, 9, 9, 3, 9};
 
     // Testing
-    Assert.assertEquals(1, this.coderController.arrayFront9(actualArray));
-    Assert.assertEquals(2, this.coderController.arrayFront9(actualArray2));
-    Assert.assertEquals(3, this.coderController.arrayFront9(actualArray3));
+    Assert.assertEquals(1, this.coderController.arrayCount9(actualArray));
+    Assert.assertEquals(2, this.coderController.arrayCount9(actualArray2));
+    Assert.assertEquals(3, this.coderController.arrayCount9(actualArray3));
 
     // Rest Endpoint Test (hier eine Collection, Array, etc. von integern)
     MvcResult result = this.mockMvc.perform(get("/testresults/arrayCount9/1,2,9").accept("application/json")).andExpect(status().isOk()).andReturn();
