@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.6.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.codingchallenge</groupId>
 	<artifactId>coding-challgenge</artifactId>
@@ -16,18 +17,18 @@
 
 
 
-  <properties>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <java.version>8</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<java.version>8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <!-- dependency versions -->
-    <version.spotbugs-annotations>3.1.12</version.spotbugs-annotations>
-    <version.spring-shell>2.0.1.RELEASE</version.spring-shell>
-    <version.persistence>2.2.1</version.persistence>
-    <version.hibernate>5.4.2.Final</version.hibernate>
-  </properties>
+		<!-- dependency versions -->
+		<version.spotbugs-annotations>3.1.12</version.spotbugs-annotations>
+		<version.spring-shell>2.0.1.RELEASE</version.spring-shell>
+		<version.persistence>2.2.1</version.persistence>
+		<version.hibernate>5.4.2.Final</version.hibernate>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -64,6 +65,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
 	</dependencies>
 
 	<build>

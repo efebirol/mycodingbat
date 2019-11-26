@@ -2,7 +2,6 @@ package com.codingchallenge.controller;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +15,11 @@ import com.codingchallenge.webservice.CoderService;
 
 
 /*
+ * DB Test sollten Integration test sein, da wir mehrere Schichten testen.
  * Mock - simuliere eine Schicht (z. B. die Datenbank)
  * - Unittests teste nur Funktionalität des Codes
+ * -- brauche daher die DB nicht, sondern mocke/simuliere diese
+ * -- Info: Anwendung bei einer typischen Controller -> Service-> Persistence Schicht Applikation
  * -- Info: alle anderen Abhängigkeiten/Dependencies werden gemockt (hier: im Controller)
  * -- Trennung: Habe Controller als für REST, und Services/Webservices für die Logik
  * -- Info: Testen der DB, 3rd Parties Anbieter oder Netzwerk gehört in den Integrationtest
@@ -30,7 +32,7 @@ import com.codingchallenge.webservice.CoderService;
 
 // Spring Boot Tests + Junit
 @RunWith(SpringRunner.class)
-public class CoderControllerUnitTest
+public class CoderControllerDbTest
 {
 
   /*
@@ -65,52 +67,9 @@ public class CoderControllerUnitTest
     // Mocks
     Mockito.when(this.coderControllerMock.testAMock(anyString())).thenReturn("dies ist simulierter Mock, returniert gewünschten String, NICHT den echten von der Funktion");
 
+
   }
 
-  @Test
-  public void testADummyMock()
-  {
-    String expectedString = "dies ist simulierter Mock, returniert gewünschten String, NICHT den echten von der Funktion";
-    Assert.assertEquals(expectedString, this.coderControllerMock.testAMock("NichtRelevanterText"));
-  }
-
-  /* JUnit Test mit Mock */
-  @Test
-  public void testArrayFront9()
-  {
-    // Setup Tests
-    int[] actualArray = new int[]{1, 2, 9, 3, 4};
-    int[] actualArray2 = new int[]{1, 2, 3, 4, 9};
-    int[] actualArray3 = new int[]{1, 2, 3, 4, 5};
-    int[] actualArray4 = new int[]{9, 2, 3};
-
-    // Testing
-    Assert.assertEquals(true, this.coderControllerCode.arrayFront9(actualArray));
-    Assert.assertEquals(false, this.coderControllerCode.arrayFront9(actualArray2));
-    Assert.assertEquals(false, this.coderControllerCode.arrayFront9(actualArray3));
-    Assert.assertEquals(true, this.coderControllerCode.arrayFront9(actualArray4));
-  }
-
-
-  /*
-   * Given an array of ints, return true if the sequence of numbers 1, 2, 3 appears in the array somewhere.
-   * array123([1, 1, 2, 3, 1]) → true
-   * array123([1, 1, 2, 4, 1]) → false
-   * array123([1, 1, 2, 1, 2, 3]) → true
-   **/
-  @Test
-  public void testArray123()
-  {
-    // Setup Tests
-    int[] actualArray = new int[]{1, 1, 2, 3, 1};
-    int[] actualArray2 = new int[]{1, 1, 2, 4, 1};
-    int[] actualArray3 = new int[]{1, 1, 2, 1, 2, 3};
-
-    // Testing - Teste nur die Methode
-    Assert.assertEquals(true, this.coderControllerService.array123Service(actualArray));
-    Assert.assertEquals(false, this.coderControllerService.array123Service(actualArray2));
-    Assert.assertEquals(true, this.coderControllerService.array123Service(actualArray3));
-  }
 
   /*
    * Given 2 strings, a and b, return the number of the positions where they contain the same length 2 substring. So "xxcaazz" and "xxbaaz" yields 3, since the "xx", "aa", and "az"

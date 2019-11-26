@@ -28,28 +28,28 @@ public class CoderController
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CoderController.class);
 
-  private CoderService userService;
+  @Autowired
+  private CoderService coderService;
 
   private String name;
 
-  /**
-   * @author Efe
+  // public CoderController()
+  // {
+  // this.coderService = new CoderService();
+  //
+  // }
+
+  /*
+   * Initializiere das Service (mit Methoden) in den Controller
+   * @Autowired - Wird automatisch instanziert/befüllt beim Start
    */
-
-  public CoderController()
-  {
-    this.userService = new CoderService();
-
-  }
-
-  @Autowired
-  public CoderController(CoderService userService)
+  // @Autowired
+  public CoderController(CoderService coderService)
   {
 
-    // logger.info("-- Usercontroller.java - Usercontroller() Konstruktor");
+    LOGGER.info("-- Usercontroller.java - CoderController() - Wird automatisch instanziert/befüllt beim Start");
 
-    this.userService = new CoderService();
-    this.userService = userService;
+    this.coderService = coderService;
     this.setName("TestLombokGetterName");
   }
 
@@ -352,7 +352,7 @@ public class CoderController
 
     for ( int i = 0 ; i < nums.length ; i++ )
     {
-      LOGGER.info("nums.length: " + nums.length + "Position: " + i + " mit Wert: " + nums[i]);
+      LOGGER.info("nums.length: " + nums.length + " Position: " + i + " mit Wert: " + nums[i]);
       if (nums[i] == 9 && i < 4)
       {
         LOGGER.info("True :-)");
@@ -362,7 +362,26 @@ public class CoderController
     LOGGER.info("False:-)");
     return result;
 
-
   }
+
+  /*
+   * Hinweis: Lege Logik ab hier in sein eigene Service Package (webservice)
+   * Given an array of ints, return true if the sequence of numbers 1, 2, 3 appears in the array somewhere.
+   * array123([1, 1, 2, 3, 1]) → true
+   * array123([1, 1, 2, 4, 1]) → false
+   * array123([1, 1, 2, 1, 2, 3]) → true
+   **/
+  @RequestMapping(value = "/testarray123/{nums}")
+  public boolean array123(@PathVariable("nums") int[] nums)
+  {
+    return this.coderService.array123Service(nums);
+  }
+
+  @RequestMapping(value = "/testStringMatch/{a}/{b}")
+  public int stringMatch(@PathVariable("a") String a, @PathVariable("b") String b)
+  {
+    return this.coderService.stringMatchService(a, b);
+  }
+
 
 }
