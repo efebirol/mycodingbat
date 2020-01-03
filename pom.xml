@@ -28,6 +28,8 @@
 		<version.spring-shell>2.0.1.RELEASE</version.spring-shell>
 		<version.persistence>2.2.1</version.persistence>
 		<version.hibernate>5.4.2.Final</version.hibernate>
+		<id>dev</id>
+		<meine.testdaten>your_dev_URL</meine.testdaten>
 	</properties>
 
 	<dependencies>
@@ -65,10 +67,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
 	</dependencies>
 
@@ -79,6 +81,12 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 </project>

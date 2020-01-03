@@ -47,7 +47,7 @@ public class CoderController
   public CoderController(CoderService coderService)
   {
 
-    LOGGER.info("-- Usercontroller.java - CoderController() - Wird automatisch instanziert/befüllt beim Start");
+    LOGGER.info("-- CoderController.java - CoderController() - Wird automatisch instanziert/befüllt beim Start");
 
     this.coderService = coderService;
     this.setName("TestLombokGetterName");
@@ -62,7 +62,7 @@ public class CoderController
   @RequestMapping(value = "/getuserwebpage", method = RequestMethod.GET)
   public String getUserWebpage()
   {
-    // logger.info("-- Usercontroller.java - getUserWebpage()");
+    // logger.info("-- CoderController.java - getUserWebpage()");
     return this.getName();
   }
 
@@ -76,7 +76,7 @@ public class CoderController
   {
 
     char c = 'e';
-    // LOGGER.info("-- UserController -- stringE() - inputstring: " + inputstring);
+    // LOGGER.info("-- CoderController -- stringE() - inputstring: " + inputstring);
     int count = checkLetter(inputstring, 0, c);
 
     final int maxVal = 3;
@@ -98,17 +98,17 @@ public class CoderController
   @RequestMapping(value = "/lastdigit/{inputnumberone}/{inputnumbertwo}", method = RequestMethod.GET)
   public boolean lastdigit(@PathVariable("inputnumberone") int inputnumberone, @PathVariable("inputnumbertwo") int inputnumbertwo)
   {
-    // logger.info("-- UserController -- lastdigit() - inputstring Wert 1: " +
+    // logger.info("-- CoderController -- lastdigit() - inputstring Wert 1: " +
     // inputnumberone);
-    // logger.info("-- UserController -- lastdigit() - inputstring Wert 2: " +
+    // logger.info("-- CoderController -- lastdigit() - inputstring Wert 2: " +
     // inputnumbertwo);
 
     int modValueOne = inputnumberone % MODNUMBER;
     int modValueTwo = inputnumbertwo % MODNUMBER;
 
-    // logger.info("-- UserController -- lastdigit() - modValueOne Wert 1: " +
+    // logger.info("-- CoderController -- lastdigit() - modValueOne Wert 1: " +
     // modValueOne);
-    // logger.info("-- UserController -- lastdigit() - modValueTwo Wert 2: " +
+    // logger.info("-- CoderController -- lastdigit() - modValueTwo Wert 2: " +
     // modValueTwo);
 
     return (modValueOne == modValueTwo) ? true : false;
@@ -150,24 +150,24 @@ public class CoderController
   @RequestMapping(value = "/testeverynth/{str}/{n}", method = RequestMethod.GET)
   public String everynth(@PathVariable("str") String str, @PathVariable("n") int n)
   {
-    // LOGGER.info("-- UserController -- everynth() - Variable str:" + str);
-    // LOGGER.info("-- UserController -- everynth() - Variable n:" + n);
+    // LOGGER.info("-- CoderController -- everynth() - Variable str:" + str);
+    // LOGGER.info("-- CoderController -- everynth() - Variable n:" + n);
     String result = "";
     if (!("".equals(str)))
     {
       for ( int i = 0 ; i <= str.length() - 1 ; i++ )
       {
-        // LOGGER.info("-- UserController -- everynth() - (i == 0):"+(i == 0));
-        // LOGGER.info("-- UserController -- everynth() - (i % n == 0):"+(i % n == 0));
+        // LOGGER.info("-- CoderController -- everynth() - (i == 0):"+(i == 0));
+        // LOGGER.info("-- CoderController -- everynth() - (i % n == 0):"+(i % n == 0));
 
         // check if Nth number
         if (i % n == 0)
         {
-          // LOGGER.info("-- UserController -- everynth() - str.charAt(i):" + str.charAt(i));
+          // LOGGER.info("-- CoderController -- everynth() - str.charAt(i):" + str.charAt(i));
           result = result + str.charAt(i);
         }
       }
-      // LOGGER.info("-- UserController -- everynth() - Variable result:"+result);
+      // LOGGER.info("-- CoderController -- everynth() - Variable result:"+result);
     }
 
     return result;
@@ -185,8 +185,8 @@ public class CoderController
     String result = "";
     final String word = str;
 
-    // LOGGER.info("-- UserController -- stringTimes() - str: "+str);
-    // LOGGER.info("-- UserController -- stringTimes() - n: "+n);
+    // LOGGER.info("-- CoderController -- stringTimes() - str: "+str);
+    // LOGGER.info("-- CoderController -- stringTimes() - n: "+n);
 
     if (n > 0)
     {
@@ -219,8 +219,8 @@ public class CoderController
       {
         for ( int j = 0 ; (j < str.length()) && (j < 3) ; j++ )
         {
-          // LOGGER.info("-- UserController -- testfronttimes() - str: "+str.charAt(i));
-          // LOGGER.info("-- UserController -- testfronttimes() - i : "+i+" j "+j);
+          // LOGGER.info("-- CoderController -- testfronttimes() - str: "+str.charAt(i));
+          // LOGGER.info("-- CoderController -- testfronttimes() - i : "+i+" j "+j);
           result += str.charAt(j);
         }
       }
@@ -242,9 +242,9 @@ public class CoderController
 
     for ( int i = 0 ; i < str.length() ; i++ )
     {
-      // LOGGER.info("-- UserController -- countXX() - str: " + str);
+      // LOGGER.info("-- CoderController -- countXX() - str: " + str);
       result = ((str.charAt(i) == 'x') && ((i != 0) && (str.charAt(i - 1) == 'x'))) ? ++result : result;
-      // LOGGER.info("-- UserController -- countXX() - RESULT: " + result);
+      // LOGGER.info("-- CoderController -- countXX() - RESULT: " + result);
     }
 
     return result;
@@ -263,8 +263,8 @@ public class CoderController
 
     for ( int i = 0 ; i < str.length() - 1 ; i++ )
     {
-      // LOGGER.info("-- UserController -- doublex() - str.charAt(i): " + str.charAt(i));
-      // LOGGER.info("-- UserController -- doublex() - if-Abfrage: "+ ( !( "".equals(str)) && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x') );
+      // LOGGER.info("-- CoderController -- doublex() - str.charAt(i): " + str.charAt(i));
+      // LOGGER.info("-- CoderController -- doublex() - if-Abfrage: "+ ( !( "".equals(str)) && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x') );
       if (!("".equals(str)) && (str.length() >= 1) && (str.charAt(i) == 'x') && str.charAt(i + 1) == 'x')
       {
         result = true;
@@ -273,7 +273,7 @@ public class CoderController
       // prüfe ob "x", gleich ein weiteres folgt
       else if ((str.charAt(i) == 'x') && !(str.charAt(i + 1) == 'x'))
       {
-        // LOGGER.info("-- UserController -- doublex() - elseif");
+        // LOGGER.info("-- CoderController -- doublex() - elseif");
         break;
       }
     }
@@ -370,6 +370,10 @@ public class CoderController
    * array123([1, 1, 2, 3, 1]) → true
    * array123([1, 1, 2, 4, 1]) → false
    * array123([1, 1, 2, 1, 2, 3]) → true
+   * Beispielaufruf: http://localhost:8090/testresults/testStringMatch/worteins/wortzwei
+   * - Port 8090
+   * - 1. Parameter "worteins"
+   * - 2. Parameter "wortzwei"
    **/
   @RequestMapping(value = "/testarray123/{nums}")
   public boolean array123(@PathVariable("nums") int[] nums)

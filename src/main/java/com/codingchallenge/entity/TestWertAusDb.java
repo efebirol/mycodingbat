@@ -53,7 +53,7 @@ public class TestWertAusDb
 
   public String getStringvalueA()
   {
-    return stringvalueA;
+    return this.stringvalueA;
   }
 
 
@@ -65,7 +65,7 @@ public class TestWertAusDb
 
   public String getStringvalueB()
   {
-    return stringvalueB;
+    return this.stringvalueB;
   }
 
 
@@ -86,8 +86,9 @@ public class TestWertAusDb
   public String toString()
   {
     String result = "";
-    result += String.format("-- \nCustomer.java - toString() - Stringvalue[id=%d]", this.id);
-    result += String.format("-- \nCustomer.java - toString() - stringvalue:" + this.stringvalueA);
+    result += String.format("%n-- Customer.java - toString() - Stringvalue[id=%d]", this.id);
+    result += String.format("%n-- Customer.java - toString() - Stringvalue: %s ", this.getStringvalueA());
+    result += String.format("%n-- Customer.java - toString() - Stringvalue: %s ", this.getStringvalueB());
     return result;
   }
 

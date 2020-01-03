@@ -1,6 +1,7 @@
 package com.codingchallenge.webservice;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class CoderService
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CoderService.class);
 
+  // Verbindung zur DB
   @Autowired
   CoderRepository coderRepository;
 
@@ -68,13 +70,25 @@ public class CoderService
     LOGGER.info("-- CoderService.java - a: " + a + " b: " + b);
 
     // schreibe Daten in die DB (entsprechend dem Konstruktor des JPA-Repository, hier : TestWertAusDb.java)
-    coderRepository.save(new TestWertAusDb("xxcaazz", "xxbaaz"));
+    coderRepository.save(new TestWertAusDb(a, b));
 
     // lese Daten aus der DB
-    coderRepository.findById(1L);
+    TestWertAusDb dbEintrag = getDbEntry(1L);
+    LOGGER.info(dbEintrag.toString());
+
+    // Logik schreiben
 
     return result;
+  }
 
+  /* Hilfsklasse um DB zu durchsuchen */
+  public TestWertAusDb getDbEntry(Long id)
+  {
+    Optional<TestWertAusDb> optionalDbWert = coderRepository.findById(id);
+    String output = (optionalDbWert.isPresent() == true) ? "-- CoderService.java - getDbEntry - optionalDbWert ist TRUE"
+      : "-- CoderService.java - getDbEntry - optionalDbWert ist FALSE";
+    LOGGER.info(output);
+    return optionalDbWert.get();
   }
 
 }

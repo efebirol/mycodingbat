@@ -10,8 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.codingchallenge.entity.TestWertAusDb;
+import com.codingchallenge.repository.CoderRepository;
 import com.codingchallenge.webservice.CoderService;
 
 
@@ -45,6 +48,13 @@ public class CoderControllerUnitTest
   @Mock
   CoderController coderControllerMock;
 
+  @Mock
+  CoderService coderControllerServiceMock;
+
+  // Mock/Simuliere den Zugriff auf die DB
+  @MockBean
+  CoderRepository coderRepository;
+
   /*
    * Nicht "@autowired", sondern von Mockito @InjectMocks verwenden
    */
@@ -53,6 +63,7 @@ public class CoderControllerUnitTest
 
   @InjectMocks
   CoderService coderControllerService;
+
 
   @Before
   public void setup()
@@ -64,6 +75,11 @@ public class CoderControllerUnitTest
 
     // Mocks
     Mockito.when(this.coderControllerMock.testAMock(anyString())).thenReturn("dies ist simulierter Mock, returniert gewünschten String, NICHT den echten von der Funktion");
+
+    // Mock - Binding für den "testStringMatch"-Testfall
+    TestWertAusDb testWertePaar = new TestWertAusDb("testWert1", "testWert2");
+    // wird die DB mit "findById" aufgerufen, returniert er eine festen Wert über das "coderRepository"-Mock-Objekt
+    Mockito.when(coderRepository.findById(1L)).thenReturn(testWertePaar);
 
   }
 
@@ -112,16 +128,26 @@ public class CoderControllerUnitTest
     Assert.assertEquals(true, this.coderControllerService.array123Service(actualArray3));
   }
 
+  /* Info: Testen hier die Service (Logik) mit einem Datenbank-Mock (Persistenz) */
   /*
    * Given 2 strings, a and b, return the number of the positions where they contain the same length 2 substring. So "xxcaazz" and "xxbaaz" yields 3, since the "xx", "aa", and "az"
    * substrings appear in the same place in both strings.
    * stringMatch("xxcaazz", "xxbaaz") → 3
    * stringMatch("abc", "abc") → 2
    * stringMatch("abc", "axc") → 0
-   **/
+   */
   @Test
   public void testStringMatch()
   {
-    // Assert.assertArrayEquals(3, actuals);
+    Long testId = 1L;
+    String valueA = "xxcaazz";
+    String valueB = "xxbaaz";
+
+    // Einfaches @Mock (nicht @InjectMocks), da nur die Methode simuliert wird ohne seine Verbindungen/Depedencies (z. B. DB, 3rd Parties)
+    Mockito.when(this.coderControllerServiceMock.stringMatchService(anyString(), anyString())).thenReturn(3);
+
+    // Aufruf des Service (DB gehört hier gemockt, da nur Interesse an Service besteht
+    int result = this.coderControllerServiceMock.stringMatchService(valueA, valueB);
+    Assert.assertEquals(3, result);
   }
 }
