@@ -387,5 +387,18 @@ public class CoderController
     return this.coderService.stringMatchService(a, b);
   }
 
+  /*
+   * Given a string, return a version where all the "x" have been removed. Except an "x" at the very start or end should not be removed.
+   * stringX("xxHxix") → "xHix"
+   * stringX("abxxxcd") → "abcd"
+   * stringX("xabxxxcdx") → "xabcdx"
+   */
+  @RequestMapping(value = "/testStringX/{inputstring}", method = RequestMethod.GET)
+  public String stringX(@PathVariable("inputstring") String str)
+  {
+    String result;
+    result = this.coderService.stringXService(str);
+    return result;
+  }
 
 }

@@ -2,6 +2,9 @@ package com.codingchallenge.controller;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -37,12 +42,13 @@ public class CoderControllerUnitTest
 {
 
   /*
-   * ToDo:
+   * Info:
    * MockBean Beispiel
    * MockBean - Überschreibt/mockt eine Bean im SpringContext-Pool wenn es gestartet wird
    * InjectMocks - erzeugt eine Klasse und alle dazugehörigen "@Mock"-Mocks
    */
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(CoderControllerUnitTest.class);
 
   /* Mock - Simuliert eine Klasse oder ein Objekt. Muss initialisiert werden und ein "when-thenReturn"-Binding haben */
   @Mock
@@ -149,5 +155,48 @@ public class CoderControllerUnitTest
     // Aufruf des Service (DB gehört hier gemockt, da nur Interesse an Service besteht
     int result = this.coderControllerServiceMock.stringMatchService(valueA, valueB);
     Assert.assertEquals(3, result);
+  }
+
+  /*
+   * Given a string, return a version where all the "x" have been removed. Except an "x" at the very start or end should not be removed.
+   * stringX("xxHxix") → "xHix"
+   * stringX("abxxxcd") → "abcd"
+   * stringX("xabxxxcdx") → "xabcdx"
+   */
+  @Test
+  public void TestStringX()
+  {
+    List<String> actualResults = new ArrayList<String>();
+
+    // Testwerte
+    List<String> testval = new ArrayList<String>();
+    testval.add("xxHxix");
+    testval.add("abxxxcd");
+    testval.add("xabxxxcdx");
+    testval.add("xKittenx");
+    testval.add("Hello");
+    testval.add("xx");
+    testval.add("x");
+    testval.add("");
+
+    List<String> expected = new ArrayList<String>();
+    expected.add("xHix");
+    expected.add("abcd");
+    expected.add("xabcdx");
+    expected.add("xKittenx");
+    expected.add("Hello");
+    expected.add("xx");
+    expected.add("x");
+    expected.add("");
+
+    // Prüfung des Testergebnisses
+    for ( int i = 0 ; i < testval.size() ; i++ )
+    {
+      LOGGER.info("-- CoderControllerUnitTest.java - TestStringX - i: " + i + " mit dem Wert: " + testval.get(i));
+      // Aufruf der Funktion/Service
+      actualResults.add(i, this.coderControllerService.stringXService(testval.get(i)));
+    }
+
+    Assert.assertArrayEquals(expected.toArray(), actualResults.toArray());
   }
 }

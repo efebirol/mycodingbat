@@ -91,4 +91,37 @@ public class CoderService
     return optionalDbWert.get();
   }
 
+  /*
+   * Given a string, return a version where all the "x" have been removed. Except an "x" at the very start or end should not be removed.
+   * stringX("xxHxix") → "xHix"
+   * stringX("abxxxcd") → "abcd"
+   * stringX("xabxxxcdx") → "xabcdx"
+   */
+  public String stringXService(String str)
+  {
+    String result = "";
+
+    if (str.length() == 0)
+      return "";
+    if (str.length() == 1)
+      return str.charAt(0) + "";
+
+    LOGGER.info("-- CoderService.java - stringXService() - str: " + str);
+    for ( int i = 0 ; i < str.length() ; i++ )
+    {
+      if ((i == 0) || (i == str.length() - 1))
+      {
+        LOGGER.info("-- CoderService.java - stringXService() - füge in result (erstes oder letzes Zeichen): " + str.charAt(i));
+        result += str.charAt(i);
+      }
+      else if ((str.charAt(i) != 'x'))
+      {
+        LOGGER.info("-- CoderService.java - stringXService() - füge in result String: " + str.charAt(i));
+        result += str.charAt(i);
+      }
+    }
+
+    return result;
+  }
+
 }

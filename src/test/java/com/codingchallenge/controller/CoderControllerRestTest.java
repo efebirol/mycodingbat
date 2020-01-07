@@ -1,9 +1,6 @@
 package com.codingchallenge.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,12 +13,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.codingchallenge.helper.ZweiWerte;
 import com.codingchallenge.webservice.CoderService;
@@ -35,11 +35,23 @@ import com.codingchallenge.webservice.CoderService;
 public class CoderControllerRestTest
 {
 
-  @MockBean
-  private CoderService userService;
+  /**
+   * MockBean - Überschreibt/mockt eine Bean im SpringContext-Pool wenn es gestartet wird
+   */
+
+  // @MockBean
+  // private CoderService userService;
+  //
+  // @MockBean
+  // private CoderController coderController;
+
+  //////
+
+  @InjectMocks
+  CoderController coderController;
 
   @MockBean
-  private CoderController coderController;
+  CoderService userService;
 
   @Autowired
   private MockMvc mockMvc;
@@ -50,27 +62,26 @@ public class CoderControllerRestTest
   @Before
   public void beforeTest()
   {
-    when(coderController.stringE(anyString())).thenCallRealMethod();
-    when(coderController.lastdigit(anyInt(), anyInt())).thenCallRealMethod();
-    when(coderController.endup(anyString())).thenCallRealMethod();
-    when(coderController.everynth(anyString(), anyInt())).thenCallRealMethod();
-    when(coderController.stringTimes(anyString(), anyInt())).thenCallRealMethod();
-    when(coderController.frontTimes(anyString(), anyInt())).thenCallRealMethod();
-    when(coderController.countXX(anyString())).thenCallRealMethod();
-    when(coderController.doublex(anyString())).thenCallRealMethod();
-    when(coderController.Stringsplosion(anyString())).thenCallRealMethod();
-    when(coderController.arrayCount9(any())).thenCallRealMethod();
-  }
+    // when(coderController.stringE(anyString())).thenCallRealMethod();
+    // when(coderController.lastdigit(anyInt(), anyInt())).thenCallRealMethod();
+    // when(coderController.endup(anyString())).thenCallRealMethod();
+    // when(coderController.everynth(anyString(), anyInt())).thenCallRealMethod();
+    // when(coderController.stringTimes(anyString(), anyInt())).thenCallRealMethod();
+    // when(coderController.frontTimes(anyString(), anyInt())).thenCallRealMethod();
+    // when(coderController.countXX(anyString())).thenCallRealMethod();
+    // when(coderController.doublex(anyString())).thenCallRealMethod();
+    // when(coderController.Stringsplosion(anyString())).thenCallRealMethod();
+    // when(coderController.arrayCount9(any())).thenCallRealMethod();
+    // when(coderController.stringX(anyString())).thenCallRealMethod();
+    when(userService.stringXService(anyString())).thenCallRealMethod();
 
-  /**
-   * 
-   */
-  @Test
-  public void testGetUserWebpage() throws Exception
-  {
-    String shouldTestname = "TestLombokGetterName";
-    given(coderController.getUserWebpage()).willReturn(shouldTestname);
-    this.mockMvc.perform(get("/testresults/getuserwebpage")).andExpect(status().isOk());
+
+    // this must be called for the @Mock annotations above to be processed
+    // and for the mock service to be injected into the controller under
+    // test.
+    MockitoAnnotations.initMocks(this);
+
+    this.mockMvc = MockMvcBuilders.standaloneSetup(coderController).build();
   }
 
   /**
@@ -363,7 +374,6 @@ public class CoderControllerRestTest
 
     result = this.mockMvc.perform(get("/testresults/stringsplosion/ab/").accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("aab", result.getResponse().getContentAsString());
-
   }
 
   /**
@@ -398,6 +408,26 @@ public class CoderControllerRestTest
 
     result = this.mockMvc.perform(get("/testresults/arrayCount9/1,9,9,3,9").accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("3", result.getResponse().getContentAsString());
+  }
+
+  // Prüfe ob die Restschnittstelle aufrufbar
+  /**
+   * Problem: MockMVC liefert Nullpointerexception, wenn im Controller das Service aufgerufen wird
+   * - Lösung:
+   * -- Der Controller wird mit "@InjectMocks" erzeugt seine Klasse und alle dazugehörigen "@Mock"-Mocks im Test (also auch die Service Klasse)
+   * -- benötige dazu den Controller als "@InjectMocks" und die Service als "@MockBean" annotiert
+   */
+  @Test
+  public void TestStringX() throws Exception
+  {
+    String urlTestString = "xxtexstParaxxxx";
+
+    // einfaches Testing
+    Assert.assertEquals("xtestParax", this.coderController.stringX(urlTestString));
+
+    // REST-Test
+    MvcResult result = this.mockMvc.perform(get("/testresults/testStringX/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("xtestParax", result.getResponse().getContentAsString());
   }
 
 }
