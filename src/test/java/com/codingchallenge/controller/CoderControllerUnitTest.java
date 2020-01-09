@@ -50,7 +50,13 @@ public class CoderControllerUnitTest
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CoderControllerUnitTest.class);
 
-  /* Mock - Simuliert eine Klasse oder ein Objekt. Muss initialisiert werden und ein "when-thenReturn"-Binding haben */
+  /*
+   * @Mock - Simuliert eine Klasse oder ein Objekt. Muss initialisiert werden und ein "when-thenReturn"-Binding haben
+   * Info: ohne Mocking mit "Mockito.when().thenReturn" erhalten wird null zurück, da Mock-Objekt "null" ist
+   * Info: @Mock vs. @InjectMocks - bei @InjectMocks wird die Methode tatsächlich aufgerufen, bei @Mock nicht (liefert "null" ohne mocking).
+   * -- @InjectMocks erspart mir das Erstellen des Objektes mit "new". Injizieren die eine Klasse in ein Mock
+   * -- Szenario: @InjectMocks auf eine Klasse die instanziert werden soll, und @Mock auf alle die Properties des @InjectMocks-Klasse (@Autowired, Attribute, Methoden etc.)
+   */
   @Mock
   CoderController coderControllerMock;
 
@@ -198,5 +204,50 @@ public class CoderControllerUnitTest
     }
 
     Assert.assertArrayEquals(expected.toArray(), actualResults.toArray());
+  }
+
+  /*
+   * Given a string, return a string made of the chars at indexes 0,1, 4,5, 8,9 ... so "kittens" yields "kien".
+   * altPairs("kitten") → "kien"
+   * altPairs("Chocolate") → "Chole"
+   * altPairs("CodingHorror") → "Congrr"
+   */
+
+  // Einfacher Unittest
+  @Test
+  public void testAltPairs()
+  {
+    List<String> urlTestStringsActual = new ArrayList<>();
+    List<String> expecteds = new ArrayList<>();
+    List<String> actuals = new ArrayList<>();
+
+    // befüllt Array mit Testwerten
+    urlTestStringsActual.add("kitten");
+    urlTestStringsActual.add("Chocolate");
+    urlTestStringsActual.add("CodingHorror");
+    urlTestStringsActual.add("yak");
+    urlTestStringsActual.add("ya");
+    urlTestStringsActual.add("y");
+    urlTestStringsActual.add("");
+    urlTestStringsActual.add("ThisThatTheOther");
+
+    // befüllt Array mit erwarteten Testergebnissen
+    expecteds.add("kien");
+    expecteds.add("Chole");
+    expecteds.add("Congrr");
+    expecteds.add("ya");
+    expecteds.add("ya");
+    expecteds.add("y");
+    expecteds.add("");
+    expecteds.add("ThThThth");
+
+    for ( int i = 0 ; i < urlTestStringsActual.size() ; i++ )
+    {
+      actuals.add(this.coderControllerService.altPairsService(urlTestStringsActual.get(i)));
+    }
+
+    // prüfe den erwarteten String mit den aktuellen String-Resultat
+    Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
+
   }
 }

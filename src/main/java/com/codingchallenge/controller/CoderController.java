@@ -401,4 +401,20 @@ public class CoderController
     return result;
   }
 
+  /*
+   * Given a string, return a string made of the chars at indexes 0,1, 4,5, 8,9 ... so "kittens" yields "kien".
+   * altPairs("kitten") → "kien"
+   * altPairs("Chocolate") → "Chole"
+   * altPairs("CodingHorror") → "Congrr"
+   */
+  @RequestMapping(value = "/testAltPairs/{urlString}")
+  public String altPairs(@PathVariable("urlString") String str)
+  {
+
+    String result = this.coderService.altPairsService(str);
+
+    return result;
+  }
+
+
 }

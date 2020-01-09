@@ -73,7 +73,9 @@ public class CoderControllerRestTest
     // when(coderController.Stringsplosion(anyString())).thenCallRealMethod();
     // when(coderController.arrayCount9(any())).thenCallRealMethod();
     // when(coderController.stringX(anyString())).thenCallRealMethod();
+    // mocke den Service der vom Controller genutzt wird
     when(userService.stringXService(anyString())).thenCallRealMethod();
+    when(userService.altPairsService(anyString())).thenCallRealMethod();
 
 
     // this must be called for the @Mock annotations above to be processed
@@ -428,6 +430,24 @@ public class CoderControllerRestTest
     // REST-Test
     MvcResult result = this.mockMvc.perform(get("/testresults/testStringX/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("xtestParax", result.getResponse().getContentAsString());
+  }
+
+  /*
+   * Given a string, return a string made of the chars at indexes 0,1, 4,5, 8,9 ... so "kittens" yields "kien".
+   * altPairs("kitten") → "kien"
+   * altPairs("Chocolate") → "Chole"
+   * altPairs("CodingHorror") → "Congrr"
+   */
+
+  @Test
+  public void testAltPairs() throws Exception
+  {
+    String urlTestString = "TesteRestSchnittstelle";
+
+    // Test Restschnittstelle
+    MvcResult result = this.mockMvc.perform(get("/testresults/testAltPairs/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("TeeRtS", result.getResponse().getContentAsString());
+
   }
 
 }

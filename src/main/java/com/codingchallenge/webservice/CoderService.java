@@ -124,4 +124,37 @@ public class CoderService
     return result;
   }
 
+  /*
+   * Given a string, return a string made of the chars at indexes 0,1, 4,5, 8,9 ... so "kittens" yields "kien".
+   * altPairs("kitten") → "kien"
+   * altPairs("Chocolate") → "Chole"
+   * altPairs("CodingHorror") → "Congrr"
+   */
+  public String altPairsService(String inputstring)
+  {
+    int[] indexes = {0, 1, 4, 5, 8, 9, 12, 13};
+    int strlength = inputstring.length();
+    // fallback, wenn kein String übergeben wurde
+    String result = (inputstring.isEmpty()) ? "" : "";
+
+    LOGGER.info("-- CoderController.java - inputstring: " + inputstring);
+    LOGGER.info("-- CoderController.java - indexes Array Länge: " + indexes.length);
+    LOGGER.info("-- CoderController.java - strlength: " + strlength);
+
+
+    for ( int i = 0 ; i < indexes.length ; i++ )
+    {
+      if ((strlength >= 0) && (indexes[i]) < strlength)
+      {
+        LOGGER.info("-- CoderController.java - füge ins result die Stelle: " + indexes[i]);
+        result = result + inputstring.charAt(indexes[i]);
+      }
+    }
+
+    LOGGER.info("-- CoderController.java -  result: " + result);
+
+    return result;
+  }
+
+
 }
