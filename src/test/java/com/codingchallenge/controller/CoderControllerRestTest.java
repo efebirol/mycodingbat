@@ -446,7 +446,7 @@ public class CoderControllerRestTest
 
     // Test Restschnittstelle
     MvcResult result = this.mockMvc.perform(get("/testresults/testAltPairs/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
-    Assert.assertEquals("TeeRtS", result.getResponse().getContentAsString());
+    Assert.assertEquals("TeeRtSni", result.getResponse().getContentAsString());
 
   }
 
