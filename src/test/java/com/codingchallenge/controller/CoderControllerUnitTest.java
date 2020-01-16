@@ -250,4 +250,45 @@ public class CoderControllerUnitTest
     Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
 
   }
+
+  /**
+   * Suppose the string "yak" is unlucky. Given a string, return a version where all the "yak" are removed, but the "a" can be any char. The "yak" strings will not overlap.
+   * stringYak("yakpak") → "pak"
+   * stringYak("pakyak") → "pak"
+   * stringYak("yak123ya") → "123ya"
+   */
+  @Test
+  public void testStringYakService()
+  {
+    List<String> urlTestStringsActual = new ArrayList<>();
+    List<String> expecteds = new ArrayList<>();
+    List<String> actuals = new ArrayList<>();
+
+    // befüllt Array mit Testwerten
+    urlTestStringsActual.add("yakpak");
+    urlTestStringsActual.add("pakyak");
+    urlTestStringsActual.add("yak123ya");
+    urlTestStringsActual.add("yakxxxyak");
+    urlTestStringsActual.add("xxxyakyyyakzzz");
+    urlTestStringsActual.add("HiyakHi");
+    urlTestStringsActual.add("yak");
+
+    // befüllt Array mit erwarteten Testergebnissen
+    expecteds.add("pak");
+    expecteds.add("pak");
+    expecteds.add("123ya");
+    expecteds.add("xxx");
+    expecteds.add("xxxyyzzz");
+    expecteds.add("HiHi");
+    expecteds.add("");
+
+    // führe die Service-Methode aus
+    for ( int i = 0 ; i < urlTestStringsActual.size() ; i++ )
+    {
+      actuals.add(this.coderControllerService.stringYakService(urlTestStringsActual.get(i)));
+    }
+
+    // prüfe den erwarteten String mit den aktuellen String-Resultat
+    Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
+  }
 }

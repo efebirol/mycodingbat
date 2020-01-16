@@ -156,5 +156,59 @@ public class CoderService
     return result;
   }
 
+  /**
+   * Suppose the string "yak" is unlucky. Given a string, return a version where all the "yak" are removed, but the "a" can be any char. The "yak" strings will not overlap.
+   * stringYak("yakpak") → "pak"
+   * stringYak("pakyak") → "pak"
+   * stringYak("yak123ya") → "123ya"
+   */
+  public String stringYakService(String str)
+  {
+    String suchbegriff = "yak";
+
+    if (str.contains(suchbegriff) == false)
+    {
+      return str;
+    }
+    else
+    {
+
+      // prüfe wie oft Suchbegriff im String vorkommt und filtere diesen raus, sooft wie der "suchbegriff" in String "str" vorkommt
+      while (str.contains(suchbegriff))
+      {
+        str = rausfilternString(suchbegriff, str);
+      }
+
+    }
+
+    return str;
+  }
+
+  // Suche den String einmal aus dem String raus
+  private String rausfilternString(String suchbegriff, String str)
+  {
+
+    int strl = str.length() - 1;
+    int occurenceStart, occurenceEnd;
+
+    String result = "";
+    // an welcher Stelle kommt der Suchstring vor
+    occurenceStart = str.indexOf(suchbegriff);
+    occurenceEnd = occurenceStart + suchbegriff.length() - 1;
+
+    LOGGER.info("CoderController.java - stringYak() - occurenceStart: " + occurenceStart + " occurenceEnd: " + occurenceEnd);
+    for ( int i = 0 ; i <= strl ; i++ )
+
+    {
+      // Iteriere den String und ignoriere den Suchbegriff ""
+      if ((i < occurenceStart || i > occurenceEnd))
+      {
+        // Anfang des String
+        LOGGER.info("CoderController.java - stringYak() - für char in result hinzu: " + str.charAt(i));
+        result = result + str.charAt(i);
+      }
+    }
+    return result;
+  }
 
 }

@@ -29,6 +29,8 @@ import com.codingchallenge.webservice.CoderService;
 
 /**
  * @author Efe
+ *         REST Api Test
+ *         - Test der URL und Schnittstelle
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(CoderController.class)
@@ -76,6 +78,7 @@ public class CoderControllerRestTest
     // mocke den Service der vom Controller genutzt wird
     when(userService.stringXService(anyString())).thenCallRealMethod();
     when(userService.altPairsService(anyString())).thenCallRealMethod();
+    when(userService.stringYakService(anyString())).thenCallRealMethod();
 
 
     // this must be called for the @Mock annotations above to be processed
@@ -438,7 +441,6 @@ public class CoderControllerRestTest
    * altPairs("Chocolate") → "Chole"
    * altPairs("CodingHorror") → "Congrr"
    */
-
   @Test
   public void testAltPairs() throws Exception
   {
@@ -449,5 +451,22 @@ public class CoderControllerRestTest
     Assert.assertEquals("TeeRtSni", result.getResponse().getContentAsString());
 
   }
+
+  /**
+   * Suppose the string "yak" is unlucky. Given a string, return a version where all the "yak" are removed, but the "a" can be any char. The "yak" strings will not overlap.
+   * stringYak("yakpak") → "pak"
+   * stringYak("pakyak") → "pak"
+   * stringYak("yak123ya") → "123ya"
+   */
+  @Test
+  public void testStringYakApi() throws Exception
+  {
+    String urlTestString = "yak123ya";
+
+    // Test Restschnittstelle
+    MvcResult result = this.mockMvc.perform(get("/testresults/stringYak/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("123ya", result.getResponse().getContentAsString());
+  }
+
 
 }
