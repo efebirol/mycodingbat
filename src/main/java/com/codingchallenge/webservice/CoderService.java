@@ -3,13 +3,13 @@ package com.codingchallenge.webservice;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codingchallenge.entity.TestWertAusDb;
 import com.codingchallenge.repository.CoderRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -18,11 +18,11 @@ import com.codingchallenge.repository.CoderRepository;
  *         Vorteil:
  *         - Übersichtlichkeit - alles dorthin, wohin es gehört
  */
+@Slf4j
 @Service("coderService")
 public class CoderService
 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CoderService.class);
 
   // Verbindung zur DB
   @Autowired
@@ -30,26 +30,26 @@ public class CoderService
 
   public CoderService()
   {
-    LOGGER.info("--CoderService.java - Konstruktor");
+    log.info("--CoderService.java - Konstruktor");
   }
 
   public boolean array123Service(int[] nums)
   {
     boolean result = false;
 
-    LOGGER.info("nums Array: " + Arrays.toString(nums));
+    log.info("nums Array: " + Arrays.toString(nums));
 
     for ( int i = 0 ; i < nums.length - 2 ; i++ )
     {
-      LOGGER.info("nums.length: " + nums.length + " Position: " + i + " mit Wert: " + nums[i]);
+      log.info("nums.length: " + nums.length + " Position: " + i + " mit Wert: " + nums[i]);
       if (nums[i] == 1 && nums[i + 1] == 2 && nums[i + 2] == 3)
       {
-        LOGGER.info("true :-)");
+        log.info("true :-)");
         return true;
 
       }
     }
-    LOGGER.info(result + " :-)");
+    log.info(result + " :-)");
 
     return result;
   }
@@ -63,18 +63,18 @@ public class CoderService
    */
   public int stringMatchService(String a, String b)
   {
-    LOGGER.info("-- CoderService.java - stringMatchService() - Speichere Daten über JPA in die DB. Siehe http://localhost:8080/h2-console");
+    log.info("-- CoderService.java - stringMatchService() - Speichere Daten über JPA in die DB. Siehe http://localhost:8080/h2-console");
 
     int result = 0;
 
-    LOGGER.info("-- CoderService.java - a: " + a + " b: " + b);
+    log.info("-- CoderService.java - a: " + a + " b: " + b);
 
     // schreibe Daten in die DB (entsprechend dem Konstruktor des JPA-Repository, hier : TestWertAusDb.java)
     coderRepository.save(new TestWertAusDb(a, b));
 
     // lese Daten aus der DB
     TestWertAusDb dbEintrag = getDbEntry(1L);
-    LOGGER.info(dbEintrag.toString());
+    log.info(dbEintrag.toString());
 
     // Logik schreiben
 
@@ -87,7 +87,7 @@ public class CoderService
     Optional<TestWertAusDb> optionalDbWert = coderRepository.findById(id);
     String output = (optionalDbWert.isPresent() == true) ? "-- CoderService.java - getDbEntry - optionalDbWert ist TRUE"
       : "-- CoderService.java - getDbEntry - optionalDbWert ist FALSE";
-    LOGGER.info(output);
+    log.info(output);
     return optionalDbWert.get();
   }
 
@@ -106,17 +106,17 @@ public class CoderService
     if (str.length() == 1)
       return str.charAt(0) + "";
 
-    LOGGER.info("-- CoderService.java - stringXService() - str: " + str);
+    log.info("-- CoderService.java - stringXService() - str: " + str);
     for ( int i = 0 ; i < str.length() ; i++ )
     {
       if ((i == 0) || (i == str.length() - 1))
       {
-        LOGGER.info("-- CoderService.java - stringXService() - füge in result (erstes oder letzes Zeichen): " + str.charAt(i));
+        log.info("-- CoderService.java - stringXService() - füge in result (erstes oder letzes Zeichen): " + str.charAt(i));
         result += str.charAt(i);
       }
       else if ((str.charAt(i) != 'x'))
       {
-        LOGGER.info("-- CoderService.java - stringXService() - füge in result String: " + str.charAt(i));
+        log.info("-- CoderService.java - stringXService() - füge in result String: " + str.charAt(i));
         result += str.charAt(i);
       }
     }
@@ -137,21 +137,21 @@ public class CoderService
     // fallback, wenn kein String übergeben wurde
     String result = (inputstring.isEmpty()) ? "" : "";
 
-    LOGGER.info("-- CoderController.java - inputstring: " + inputstring);
-    LOGGER.info("-- CoderController.java - indexes Array Länge: " + indexes.length);
-    LOGGER.info("-- CoderController.java - strlength: " + strlength);
+    log.info("-- CoderController.java - inputstring: " + inputstring);
+    log.info("-- CoderController.java - indexes Array Länge: " + indexes.length);
+    log.info("-- CoderController.java - strlength: " + strlength);
 
 
     for ( int i = 0 ; i < indexes.length ; i++ )
     {
       if ((strlength >= 0) && (indexes[i]) < strlength)
       {
-        LOGGER.info("-- CoderController.java - füge ins result die Stelle: " + indexes[i]);
+        log.info("-- CoderController.java - füge ins result die Stelle: " + indexes[i]);
         result = result + inputstring.charAt(indexes[i]);
       }
     }
 
-    LOGGER.info("-- CoderController.java -  result: " + result);
+    log.info("-- CoderController.java -  result: " + result);
 
     return result;
   }
@@ -196,7 +196,7 @@ public class CoderService
     occurenceStart = str.indexOf(suchbegriff);
     occurenceEnd = occurenceStart + suchbegriff.length() - 1;
 
-    LOGGER.info("CoderController.java - stringYak() - occurenceStart: " + occurenceStart + " occurenceEnd: " + occurenceEnd);
+    log.info("CoderController.java - stringYak() - occurenceStart: " + occurenceStart + " occurenceEnd: " + occurenceEnd);
     for ( int i = 0 ; i <= strl ; i++ )
 
     {
@@ -204,11 +204,25 @@ public class CoderService
       if ((i < occurenceStart || i > occurenceEnd))
       {
         // Anfang des String
-        LOGGER.info("CoderController.java - stringYak() - für char in result hinzu: " + str.charAt(i));
+        log.info("CoderController.java - stringYak() - für char in result hinzu: " + str.charAt(i));
         result = result + str.charAt(i);
       }
     }
     return result;
   }
 
+
+  public String stringBitsService(String input)
+  {
+    String result = "";
+
+    log.info("input: {}", input);
+
+    for ( int i = 0 ; i < input.length() ; i = i + 2 )
+    {
+      result = result + input.charAt(i);
+    }
+
+    return result;
+  }
 }

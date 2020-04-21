@@ -8,19 +8,21 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.codingchallenge.entity.TestWertAusDb;
 import com.codingchallenge.repository.CoderRepository;
 import com.codingchallenge.webservice.CoderService;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 /*
@@ -37,6 +39,7 @@ import com.codingchallenge.webservice.CoderService;
 
 
 // Spring Boot Tests + Junit
+@Slf4j
 @RunWith(SpringRunner.class)
 public class CoderControllerUnitTest
 {
@@ -48,7 +51,6 @@ public class CoderControllerUnitTest
    * InjectMocks - erzeugt eine Klasse und alle dazugehörigen "@Mock"-Mocks
    */
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CoderControllerUnitTest.class);
 
   /*
    * @Mock - Simuliert eine Klasse oder ein Objekt. Muss initialisiert werden und ein "when-thenReturn"-Binding haben
@@ -92,7 +94,21 @@ public class CoderControllerUnitTest
     TestWertAusDb testWertePaar = new TestWertAusDb("testWert1", "testWert2");
     // wird die DB mit "findById" aufgerufen, returniert er eine festen Wert über das "coderRepository"-Mock-Objekt
     Mockito.when(coderRepository.findById(1L)).thenReturn(testWertePaar);
+  }
 
+  // JUnit 5
+  @BeforeAll
+  static void goBeforeAll()
+  {
+    log.info("-- @BeforeAll - EINMALIG ausgeführt bevor alle Tests beginnen");
+  }
+
+  // JUnit 5
+  // Aufgerufen vor jedem einzelen Test
+  @BeforeEach
+  public void goBeforeEach()
+  {
+    log.info("-- @BeforeEach - Wird vor jedem einzelnen Test ausgeführt:");
   }
 
   @Test
@@ -198,7 +214,7 @@ public class CoderControllerUnitTest
     // Prüfung des Testergebnisses
     for ( int i = 0 ; i < testval.size() ; i++ )
     {
-      LOGGER.info("-- CoderControllerUnitTest.java - TestStringX - i: " + i + " mit dem Wert: " + testval.get(i));
+      log.info("-- CoderControllerUnitTest.java - TestStringX - i: " + i + " mit dem Wert: " + testval.get(i));
       // Aufruf der Funktion/Service
       actualResults.add(i, this.coderControllerService.stringXService(testval.get(i)));
     }
@@ -290,5 +306,42 @@ public class CoderControllerUnitTest
 
     // prüfe den erwarteten String mit den aktuellen String-Resultat
     Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
+  }
+
+  // ToDo: Add JUnit 5 Juniper
+
+  /***
+   * Given a string, return a new string made of every other char starting with the first, so "Hello" yields "Hlo".
+   * stringBits("Hello") → "Hlo"
+   * stringBits("Hi") → "H"
+   * stringBits("Heeololeo") → "Hello"
+   * 
+   * @param input
+   * @return result
+   */
+  @Test
+  public void TestStringBits()
+  {
+    List<String> actuals = new ArrayList<>();
+    List<String> expecteds = new ArrayList<>();
+
+    actuals.add(this.coderControllerService.stringBitsService("Hello"));
+    expecteds.add("Hlo");
+
+    actuals.add(this.coderControllerService.stringBitsService("Hi"));
+    expecteds.add("H");
+
+    actuals.add(this.coderControllerService.stringBitsService("Heeololeo"));
+    expecteds.add("Hello");
+
+    actuals.add(this.coderControllerService.stringBitsService("hxaxpxpxy"));
+    expecteds.add("happy");
+
+    // JUnit 5 "Jupiter"
+    for ( int i = 0 ; i < expecteds.size() ; i++ )
+    {
+      Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
+    }
+
   }
 }

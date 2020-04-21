@@ -79,6 +79,7 @@ public class CoderControllerRestTest
     when(userService.stringXService(anyString())).thenCallRealMethod();
     when(userService.altPairsService(anyString())).thenCallRealMethod();
     when(userService.stringYakService(anyString())).thenCallRealMethod();
+    when(userService.stringBitsService(anyString())).thenCallRealMethod();
 
 
     // this must be called for the @Mock annotations above to be processed
@@ -466,6 +467,27 @@ public class CoderControllerRestTest
     // Test Restschnittstelle
     MvcResult result = this.mockMvc.perform(get("/testresults/stringYak/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
     Assert.assertEquals("123ya", result.getResponse().getContentAsString());
+  }
+
+
+
+  /***
+   * Given a string, return a new string made of every other char starting with the first, so "Hello" yields "Hlo".
+   * stringBits("Hello") → "Hlo"
+   * stringBits("Hi") → "H"
+   * stringBits("Heeololeo") → "Hello"
+   * 
+   * @param input
+   * @return result
+   */
+  @Test
+  public void testStringBits() throws Exception
+  {
+    String urlTestString = "Heeololeo";
+
+    // Test Restschnittstelle
+    MvcResult result = this.mockMvc.perform(get("/testresults/stringBits/{urlString}", urlTestString).accept("application/json")).andExpect(status().isOk()).andReturn();
+    Assert.assertEquals("Hello", result.getResponse().getContentAsString());
   }
 
 
