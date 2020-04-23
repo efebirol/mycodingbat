@@ -225,4 +225,48 @@ public class CoderService
 
     return result;
   }
+
+  /***
+   * Given a string, return the count of the number of times that a substring length 2 appears in the string and also as the last 2 chars of the string, so "hixxxhi" yields 1 (we
+   * won't count the end substring).
+   * last2("hixxhi") → 1
+   * last2("xaxxaxaxx") → 1
+   * last2("axxxaaxx") → 2
+   */
+  public int last2(String inputStr)
+  {
+    int result = 0;
+    String lastTwoChars, searchString = null;
+
+    if (inputStr.length() <= 1)
+      return result;
+
+
+
+    lastTwoChars = inputStr.substring(inputStr.length() - 2, inputStr.length());
+    searchString = inputStr.substring(0, inputStr.length() - 2);
+
+    if (searchString.equals(lastTwoChars))
+      result = 1;
+
+    int searchStringlength = searchString.length();
+
+    log.info("inputStr: {}", inputStr);
+    log.info("lastTwoChars: {}", lastTwoChars);
+    log.info("searchString: {}", searchString);
+    log.info("searchStringlength: {}", searchStringlength);
+
+
+
+    // compare current 2 char searchString with lastTwoChars
+    for ( int i = 0 ; (i < searchStringlength - 1) ; i++ )
+    {
+      if (searchString.charAt(i) == lastTwoChars.charAt(0) && searchString.charAt(i + 1) == lastTwoChars.charAt(1))
+      {
+        result++;
+      }
+    }
+
+    return result;
+  }
 }
