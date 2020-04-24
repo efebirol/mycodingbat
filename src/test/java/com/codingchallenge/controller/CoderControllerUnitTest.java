@@ -344,4 +344,85 @@ public class CoderControllerUnitTest
     }
 
   }
+
+  /***
+   * Given a string, return the count of the number of times that a substring length 2 appears in the string and also as the last 2 chars of the string, so "hixxxhi" yields 1 (we
+   * won't count the end substring).
+   * last2("hixxhi") → 1
+   * last2("xaxxaxaxx") → 1
+   * last2("axxxaaxx") → 2
+   */
+  @Test
+  public void testLast2()
+  {
+    List<Integer> actuals = new ArrayList<>();
+    List<Integer> expecteds = new ArrayList<>();
+
+    actuals.add(this.coderControllerService.last2("hixxhi"));
+    expecteds.add(1);
+
+    actuals.add(this.coderControllerService.last2("xaxxaxaxx"));
+    expecteds.add(1);
+
+    actuals.add(this.coderControllerService.last2("axxxaaxx"));
+    expecteds.add(2);
+
+    actuals.add(this.coderControllerService.last2("xxxx"));
+    expecteds.add(2);
+
+    actuals.add(this.coderControllerService.last2("h"));
+    expecteds.add(0);
+
+    actuals.add(this.coderControllerService.last2(""));
+    expecteds.add(0);
+
+    // JUnit 5 "Jupiter"
+    for ( int i = 0 ; i < expecteds.size() ; i++ )
+    {
+      Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
+    }
+
+  }
+
+
+  /***
+   * Given an array of ints, return the number of times that two 6's are next to each other in the array.
+   * Also count instances where the second "6" is actually a 7.
+   * array667([6, 6, 2]) → 1
+   * array667([6, 6, 2, 6]) → 1
+   * array667([6, 7, 2, 6]) → 1
+   */
+  @Test
+  public void testArray667()
+  {
+    List<Integer> actuals = new ArrayList<>();
+    List<Integer> expecteds = new ArrayList<>();
+
+    // Test: array667([6, 6, 2]) → 1
+    int[] intList = {6, 6, 2};
+    actuals.add(this.coderControllerService.array667(intList));
+    expecteds.add(1);
+
+    // Test: array667([6, 6, 2, 6]) → 1
+    intList = new int[]{6, 6, 2, 6};
+    actuals.add(this.coderControllerService.array667(intList));
+    expecteds.add(1);
+
+    // Test: array667([6, 7, 2, 6]) → 1
+    intList = new int[]{6, 7, 2, 6};
+    actuals.add(this.coderControllerService.array667(intList));
+    expecteds.add(1);
+
+    // Test: array667([6, 6, 2, 6, 7]) → 2
+    intList = new int[]{6, 6, 2, 6, 7};
+    actuals.add(this.coderControllerService.array667(intList));
+    expecteds.add(2);
+
+    // JUnit 5 "Jupiter"
+    for ( int i = 0 ; i < expecteds.size() ; i++ )
+    {
+      Assert.assertArrayEquals(expecteds.toArray(), actuals.toArray());
+    }
+
+  }
 }
