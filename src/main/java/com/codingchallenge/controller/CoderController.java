@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingchallenge.configuration.CoderConfiguration;
 import com.codingchallenge.webservice.CoderService;
 
 import lombok.Getter;
@@ -27,8 +28,14 @@ public class CoderController
 
   private static final int MODNUMBER = 10;
 
+  //
+
   @Autowired
   private CoderService coderService;
+
+  // zum auslesen der .properties
+  @Autowired
+  private CoderConfiguration coderConf;
 
   private String name;
 
@@ -42,14 +49,16 @@ public class CoderController
    * Initializiere das Service (mit Methoden) in den Controller
    * @Autowired - Wird automatisch instanziert/befüllt beim Start
    */
-  // @Autowired
-  public CoderController(CoderService coderService)
+  @Autowired
+  public CoderController(CoderService coderService, CoderConfiguration coderConf)
   {
 
     log.info("-- CoderController.java - CoderController() - Wird automatisch instanziert/befüllt beim Start");
 
     this.coderService = coderService;
     this.setName("TestLombokGetterName");
+
+    this.coderConf = coderConf;
   }
 
   @RequestMapping(value = "/hellorestendpoint", method = RequestMethod.GET)
@@ -450,4 +459,22 @@ public class CoderController
    * last2("axxxaaxx") → 2
    */
 
+
+  /**
+   * Gebe die application.properties Werte zurück, die in der CoderConfiguration.java gemappt sind
+   */
+  @RequestMapping(value = "/ausgabePunktProperties")
+  public void printProperties()
+  {
+    log.info("testconfiguration von application.properties: " + coderConf.getTestconfiguration());
+    log.info("getTestWert: " + coderConf.getTestWert());
+    // Info: Nutze Camel Case um .properties "app.testWert.again"-Key zu nutzen (also "." weglassen, und ersten Bruchstaben danach Grosschreiben)
+    log.info("getTestWertAgain: " + coderConf.getSammlung().getAgain());
+    log.info("getAgainTwo: " + coderConf.getSammlung().getAgainTwo());
+    log.info("getDescription: " + coderConf.getDescription());
+    log.info("getUploadDir: " + coderConf.getUploadDir());
+    log.info("getSecurity getUsername: " + coderConf.getSecurity().getUsername());
+    log.info("getSecurity getPassword: " + coderConf.getSecurity().getPassword());
+
+  }
 }
